@@ -24,9 +24,18 @@
     <ClInclude Include="..\..\logic\gameMediator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\logic\nineMensMorris.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\logic\fanorona.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\logic\dotsAndBoxes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\logic\nineMensMorris.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
