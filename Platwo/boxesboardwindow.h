@@ -44,6 +44,8 @@ private:
     QString player2Name;
     QColor player1Color;
     QColor player2Color;
+    bool gameFinished = false;
+    int winnerPlayer = -1;
 
 private slots:
     void on_exitButton_clicked();

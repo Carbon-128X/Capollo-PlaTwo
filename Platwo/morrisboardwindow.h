@@ -30,6 +30,9 @@ private:
     QTimer *turnTimer;
     int turnTime;
     int remainingTime;
+    bool gameFinished = false;
+    int winnerPlayer = -1;
+
 
     void initializeWindow();
     void initializePlayers();
@@ -37,6 +40,7 @@ private:
     void updateTurn(int player);
     void updateTimer(int seconds);
     void startTurnTimer();
+    void updateScores(int p1, int p2);
 
 private slots:
     void onTimerTick();

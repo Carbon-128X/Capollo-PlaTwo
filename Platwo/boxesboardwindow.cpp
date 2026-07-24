@@ -60,8 +60,9 @@ void BoxesBoardWindow::initializeWindow() {
 void BoxesBoardWindow::initializePlayers() {
     QString hostName = player1Name.left(4);
     QString guestName = player2Name.left(4);
-    ui->player1NameLabel->setText(hostName);
-    ui->player2NameLabel->setText(guestName);
+    ui->player1NameLabel->setText(player1Name);
+    ui->player2NameLabel->setText(player2Name);
+
     ui->player1ColorLabel->setText("꧁                     ꧂");
     ui->player2ColorLabel->setText("꧁                     ꧂ ");
     ui->player1ColorLabel->setStyleSheet(QString("color:%1;").arg(player1Color.name()));
@@ -98,29 +99,38 @@ void BoxesBoardWindow::on_saveButton_clicked() {
 }
 
 void BoxesBoardWindow::on_restartButton_clicked() {
-    //auto result = CustomMessageBox::question(this,"Restart", "Restart current game?");
-   // if(result==CustomMessageBox::Yes) {
-        delete game;
-       game = new DotsAndBoxes(boardSize, boardSize);
-        ui->boardWidget->setGame(game);
-        startTurnTimer();
-        updateTurn(game->currentPlayer());
-        updateScores( game->score(1), game->score(2));
+    turnTimer->stop();
+    delete game;
+    game = new DotsAndBoxes(boardSize, boardSize);
+    ui->boardWidget->setGame(game);
+    // ریست وضعیت پایان بازی
+    gameFinished = false;
+    winnerPlayer = -1;
 
-        if(timerEnabled){
-            updateTimer(gameTime);
-        }
-        else{
-            ui->timerLabel->setText("--:--");
-        }
-   // }
+    ui->boardWidget->setEnabled(true);
+
+    initializeWindow();
+
+    if (timerEnabled){
+        startTurnTimer();
+    }
+    else{
+        updateTimer(gameTime);
+    }
+
+    ui->boardWidget->update();
 }
+
 
 void BoxesBoardWindow::on_exitButton_clicked() {
     close();
 }
 
 void BoxesBoardWindow::refreshGameUI() {
+
+    if (gameFinished){
+        return;
+    }
     updateTurn(game->currentPlayer());
     updateScores(game->score(1), game->score(2));
     startTurnTimer();
@@ -152,11 +162,20 @@ void BoxesBoardWindow::startTurnTimer() {
 void BoxesBoardWindow::onTimerTick() {
     remainingTime--;
     updateTimer(remainingTime);
-    if(remainingTime <= 0) {
-        turnTimer->stop();
-        game->forceNextPlayer();
-        updateTurn(game->currentPlayer());
-        startTurnTimer();
-        ui->boardWidget->update();
+    if (remainingTime > 0){
+        return;
     }
+    turnTimer->stop();
+    gameFinished = true;
+
+    // برنده کسی است که نوبتش نیست
+    winnerPlayer = (game->currentPlayer() == 1) ? 2 : 1;
+    QString loserName  = (game->currentPlayer() == 1) ? player1Name: player2Name;
+    QString winnerName = (winnerPlayer == 1)? player1Name: player2Name;
+
+    CustomMessageBox::information( this, "Time Out", QString("%1 ran out of time!\n\nWinner: %2")
+        .arg(loserName).arg(winnerName));
+
+    ui->boardWidget->setEnabled(false);
+
 }

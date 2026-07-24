@@ -32,6 +32,7 @@ MorrisBoardWindow::~MorrisBoardWindow() {
 }
 void MorrisBoardWindow::initializeWindow() {
     initializePlayers();
+    updateScores(game->score(1), game->score(2));
     initializeButtons();
     updateTurn(game->currentPlayer());
 
@@ -44,8 +45,11 @@ void MorrisBoardWindow::initializeWindow() {
 }
 
 void MorrisBoardWindow::initializePlayers() {
-    ui->player1NameLabel->setText(player1Name.left(4));
-    ui->player2NameLabel->setText(player2Name.left(4));
+    QString hostName = player1Name;
+    QString guestName = player2Name;
+    ui->player1NameLabel->setText(hostName);
+    ui->player2NameLabel->setText(guestName);
+    ui->boardWidget->setPlayers( hostName, guestName, player1Color, player2Color);
     ui->player1ColorLabel->setText("꧁                     ꧂");
     ui->player2ColorLabel->setText("꧁                     ꧂");
 
@@ -87,17 +91,33 @@ void MorrisBoardWindow::startTurnTimer() {
 void MorrisBoardWindow::onTimerTick() {
     remainingTime--;
     updateTimer(remainingTime);
-    if(remainingTime <= 0) {
-        turnTimer->stop();
-        game->forceNextPlayer();
-        updateTurn(game->currentPlayer());
-        startTurnTimer();
-        ui->boardWidget->update();
+
+    if (remainingTime > 0){
+        return;
     }
+
+    turnTimer->stop();
+    gameFinished = true;
+
+    // برنده کسی است که نوبتش نیست
+    winnerPlayer = (game->currentPlayer() == 1) ? 2 : 1;
+
+    QString loserName  = (game->currentPlayer() == 1) ? player1Name : player2Name;
+    QString winnerName = (winnerPlayer == 1) ? player1Name : player2Name;
+
+    CustomMessageBox::information( this, "Time Out", QString("%1 ran out of time!\n\nWinner: %2")
+     .arg(loserName).arg(winnerName));
+
+    ui->boardWidget->setEnabled(false);
+
 }
 
-
 void MorrisBoardWindow::refreshGameUI() {
+
+    if(gameFinished){
+        return;
+    }
+    updateScores( game->score(1), game->score(2));
     updateTurn(game->currentPlayer());
     startTurnTimer();
     ui->boardWidget->update();
@@ -113,18 +133,29 @@ void MorrisBoardWindow::refreshGameUI() {
         }
         CustomMessageBox::information( this,"Game Over", text);
     }
+
 }
 
 void MorrisBoardWindow::on_restartButton_clicked() {
     turnTimer->stop();
     delete game;
-
     game = new NineMensMorris();
     ui->boardWidget->setGame(game);
-    updateTurn(game->currentPlayer());
-    if(timerEnabled){
+    // ریست وضعیت پایان بازی
+    gameFinished = false;
+    winnerPlayer = -1;
+
+    ui->boardWidget->setEnabled(true);
+
+    initializeWindow();
+
+    if (timerEnabled){
         startTurnTimer();
     }
+    else{
+        updateTimer(gameTime);
+    }
+
     ui->boardWidget->update();
 }
 
@@ -134,4 +165,9 @@ void MorrisBoardWindow::on_exitButton_clicked() {
 
 void MorrisBoardWindow::on_saveButton_clicked() {
     CustomMessageBox::information( this,"Save", "Save system will be implemented later.");
+}
+
+void MorrisBoardWindow::updateScores(int p1,int p2) {
+    ui->player1ScoreLabel->setText( QString("Score : %1").arg(p1));
+    ui->player2ScoreLabel->setText( QString("Score : %1").arg(p2));
 }
