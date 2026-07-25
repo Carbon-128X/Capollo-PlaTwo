@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\logic\dotsAndBoxes.h" />
+    <ClInclude Include="..\..\logic\fanorona.h" />
     <ClInclude Include="..\..\logic\move.h" />
     <ClInclude Include="..\..\logic\gameMediator.h" />
     <ClInclude Include="..\..\logic\nineMensMorris.h" />
