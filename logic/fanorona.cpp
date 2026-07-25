@@ -149,3 +149,65 @@ bool Fanorona::canCapture(int from, int to) const {
     return false;
 }
 
+vector<Move> Fanorona::allSteps(int player) const {      // all possible steps
+    vector<Move> moves;
+
+    for (int pos = 0; pos < CELLS; pos++)
+    {
+        if (board_[pos] != player)
+            continue;
+        for (int dir = 0; dir < 8; dir++)
+        {
+            if (!connected(pos, dir))
+                continue;
+            int des = step(pos, dir);
+            if (board_[des] == 0)
+                moves.push_back(Move{ pos, des });
+        }
+    }
+
+    return moves;
+}
+
+vector<Move> Fanorona::capturingSteps(int player) const {
+    vector<Move> moves;
+    vector<Move> all = allSteps(player);
+    for (int i = 0; i < (int)all.size(); i++)
+        if (canCapture(all[i].from, all[i].to))
+            moves.push_back(all[i]);
+
+    return moves;
+}
+
+vector<Move> Fanorona::chainMoves() const {
+    vector<Move> moves;
+
+    for (int dir = 0; dir < 8; dir++)
+    {
+        int to = step(activePos_, dir);
+
+
+        if (dir == lastDir_)      // can't repeat a direction
+            continue;
+
+        if (!connected(activePos_, dir))
+            continue;
+
+        if (board_[to] != 0)
+            continue;
+
+        bool wasVisited = false;
+        for (auto it = visited_.begin(); it != visited_.end(); it++)    // checking if "to" was already visited
+            if (*it == to)
+            {
+                wasVisited = true;
+                break;
+            }
+        if (wasVisited)
+            continue;
+
+        if (canCapture(activePos_, to))
+            moves.push_back(Move{ activePos_, to });
+    }
+    return moves;
+}
