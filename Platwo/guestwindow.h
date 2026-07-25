@@ -2,7 +2,7 @@
 #define GUESTWINDOW_H
 #include <QWidget>
 #include "gamewindow.h"
-#include "videobackgroundwidget.h"
+
 #include <QColor>
 #include <QVector>
 #include "networkclient.h"
@@ -28,7 +28,6 @@ private:
     void initializeWindow();
     bool validateInput();
 
-    VideoBackgroundWidget *videoBackground;
     QVector<QColor> availableColors;
     QColor selectedGuestColor;
 

@@ -705,7 +705,7 @@ background:transparent;</string>
     <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="backgroundLabel">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -727,7 +727,7 @@ background:transparent;</string>
     <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
-  <zorder>label</zorder>
+  <zorder>backgroundLabel</zorder>
   <zorder>hostTitleLabel</zorder>
   <zorder>settingsGroupBox</zorder>
   <zorder>createRoomButton</zorder>

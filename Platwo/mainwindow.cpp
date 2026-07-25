@@ -13,13 +13,13 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) , ui(new Ui::MainWindo
 
 
     ui->boxesButton->setIcon(QIcon(":/images/images/4444.png"));
-    ui->boxesButton->setIconSize(QSize(145,145));
+    ui->boxesButton->setIconSize(QSize(146,146));
 
     ui->morrisButton->setIcon(QIcon(":/images/images/3333.png"));
     ui->morrisButton->setIconSize(QSize(140,140));
 
     ui->fanoronaButton->setIcon(QIcon(":/images/images/2222.png"));
-    ui->fanoronaButton->setIconSize(QSize(140,140));
+    ui->fanoronaButton->setIconSize(QSize(138,138));
 
 
 

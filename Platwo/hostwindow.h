@@ -2,7 +2,6 @@
 #define HOSTWINDOW_H
 #include <QWidget>
 #include "gamewindow.h"
-#include "videobackgroundwidget.h"
 #include <QColor>
 #include <QVector>
 #include "networkserver.h"
@@ -38,8 +37,6 @@ private:
     int boardSize = 6;
     int gameTime = 0;
     bool timerEnabled = false;
-
-    VideoBackgroundWidget *videoBackground;
 
     QVector<QColor> availableColors;
     QColor selectedHostColor;

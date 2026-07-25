@@ -46,10 +46,10 @@ GuestWindow::GuestWindow(GameWindow::GameType game, QWidget *parent) : QWidget(p
         ui->colorComboBox->addItem(QIcon(pix), names[i]);
     }
 
-    videoBackground = new VideoBackgroundWidget(this);
-    videoBackground->setGeometry(rect());
-    videoBackground->lower();
-    videoBackground->setVideo(":/images/images/1111.png ");
+    ui->backgroundLabel->setPixmap(QPixmap(":/images/images/1111.png"));
+    ui->backgroundLabel->setScaledContents(true);
+    ui->backgroundLabel->setGeometry(rect());
+    ui->backgroundLabel->lower();
 
     initializeWindow();
     client = new NetworkClient(this);
@@ -118,8 +118,7 @@ void GuestWindow::on_backButton_clicked() {
 void GuestWindow::resizeEvent(QResizeEvent *event) {
     QWidget::resizeEvent(event);
 
-    if(videoBackground)
-        videoBackground->setGeometry(rect());
+    ui->backgroundLabel->setGeometry(rect());
 }
 
 

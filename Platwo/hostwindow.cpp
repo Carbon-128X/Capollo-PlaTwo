@@ -49,10 +49,10 @@ HostWindow::HostWindow(GameWindow::GameType game, QWidget *parent): QWidget(pare
         ui->colorComboBox->addItem(QIcon(pix), names[i]);
     }
 
-    videoBackground = new VideoBackgroundWidget(this);
-    videoBackground->setGeometry(rect());
-    videoBackground->lower();
-    videoBackground->setVideo(":/images/images/1111.png");
+    ui->backgroundLabel->setPixmap(QPixmap(":/images/images/1111.png"));
+    ui->backgroundLabel->setScaledContents(true);
+    ui->backgroundLabel->setGeometry(rect());
+    ui->backgroundLabel->lower();
 
     initializeWindow();
     server = new NetworkServer(this);
@@ -179,8 +179,7 @@ bool HostWindow::hasTimer() const {
 void HostWindow::resizeEvent(QResizeEvent *event) {
     QWidget::resizeEvent(event);
 
-    if(videoBackground)
-        videoBackground->setGeometry(rect());
+    ui->backgroundLabel->setGeometry(rect());
 }
 
 QColor HostWindow::hostColor() const {
