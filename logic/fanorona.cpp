@@ -211,3 +211,76 @@ vector<Move> Fanorona::chainMoves() const {
     }
     return moves;
 }
+
+void Fanorona::doCapture(int from, int to) {
+    int dir = dirBetween(from, to);
+    int enemy = otherPlayer(current_);
+
+    vector<int> approach = approachTargets(to, dir, enemy);
+    vector<int> withdraw = withdrawTargets(from, dir, enemy);
+
+    board_[to] = current_;
+    board_[from] = 0;
+
+    vector<int> captured;
+    if (approach.size() >= withdraw.size())
+        captured = approach;
+    else
+        captured = withdraw;
+
+    for (int i = 0; i < (int)captured.size(); i++)
+        board_[captured[i]] = 0;
+
+    movesSinceCapture_ = 0;
+}
+
+void Fanorona::endTurn() {
+    chaining_ = false;
+    activePos_ = -1;
+    lastDir_ = -1;
+    visited_.clear();
+
+    current_ = otherPlayer(current_);
+}
+
+
+
+
+int Fanorona::rows() const {
+    return ROWS;
+}
+int Fanorona::cols() const {
+    return COLS;
+}
+
+int Fanorona::posStatus(int pos) const {
+    if (pos < 0 || pos >= CELLS)
+        return -1;      // invalid
+    return board_[pos];
+}
+
+bool Fanorona::isStrongPoint(int pos) const {
+    if (pos < 0 || pos >= CELLS)
+        return false;
+
+    return isStrong(pos);
+}
+
+bool Fanorona::inCaptureChain() const {
+    return chaining_;
+}
+
+void Fanorona::loadState(const vector<int>& board, int current, int movesSinceCapture) {
+    if (board.size() != CELLS)
+        return;      // if saved info was incomplete
+    
+    for (int i = 0; i < CELLS; i++)
+        board_[i] = board[i];
+
+    current_ = current;
+    movesSinceCapture_ = movesSinceCapture;
+    chaining_ = false;      // games are always saved between turns
+    activePos_ = -1;
+    visited_.clear();
+    lastDir_ = -1;
+}
