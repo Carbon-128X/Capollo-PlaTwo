@@ -22,6 +22,7 @@ SOURCES += \
     logic/dotsAndBoxes.cpp \
     logic/nineMensMorris.cpp \
     loginwindow.cpp \
+    logic/fanarona.cpp\
     main.cpp \
     mainwindow.cpp \
     morrisboardwidget.cpp \
@@ -66,7 +67,7 @@ HEADERS += \
     videobackgroundwidget.h \
     welcomewindow.h \
     widget.h \
-
+    logic/fanarona.h\
 
 FORMS += \
     boxesboardwindow.ui \
