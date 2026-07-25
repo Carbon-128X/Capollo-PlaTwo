@@ -245,6 +245,128 @@ void Fanorona::endTurn() {
 
 
 
+string Fanorona::name() const {
+    return "Fanorona";
+}
+
+int Fanorona::currentPlayer() const {
+    return current_;
+}
+
+vector<Move> Fanorona::legalMoves() const {
+    vector<Move> moves;
+
+    if (isGameOver())
+        return moves;
+
+    if (chaining_) {
+        moves = chainMoves();
+        moves.push_back(Move{ -1, -1 });   // for the option "finish my turn"
+        return moves;
+    }
+
+    vector<Move> caps = capturingSteps(current_);
+    if (!caps.empty())
+        return caps;    // capturing is forced if it's possible
+
+    return allSteps(current_);
+}
+
+bool Fanorona::applyMove(const Move& move) {
+    if (isGameOver())
+        return false;
+
+    if (chaining_)
+    {
+        if (move.from == -1 && move.to == -1)      // player chooses to stop
+        {
+            endTurn();
+            return true;
+        }
+
+        vector<Move> chains = chainMoves();
+        if (std::find(chains.begin(), chains.end(), move) == chains.end())
+            return false;
+
+        doCapture(move.from, move.to);
+        activePos_ = move.to;
+        visited_.push_back(move.to);
+        lastDir_ = dirBetween(move.from, move.to);
+
+        if (chainMoves().empty())
+            endTurn();
+
+        return true;
+    }
+
+
+    vector<Move> caps = capturingSteps(current_);
+    if (!caps.empty())
+    {
+        if (std::find(caps.begin(), caps.end(), move) == caps.end())
+            return false;
+
+        doCapture(move.from, move.to);
+        chaining_ = true;
+        activePos_ = move.to;
+        visited_.clear();
+        visited_.push_back(move.from);
+        visited_.push_back(move.to);
+        lastDir_ = dirBetween(move.from, move.to);
+        if (chainMoves().empty())
+            endTurn();
+
+        return true;
+    }
+
+    
+    vector<Move> all = allSteps(current_);
+    if (std::find(all.begin(), all.end(), move) == all.end())
+        return false;
+
+    board_[move.to] = current_;
+    board_[move.from] = 0;
+    movesSinceCapture_++;
+    endTurn();
+
+    return true;
+}
+
+int Fanorona::winner() const {
+    int loser = 0;
+    if (countPieces(1) == 0)
+        loser = 1;
+    else if (countPieces(2) == 0)
+        loser = 2;
+    else if (!chaining_ && capturingSteps(current_).empty() && allSteps(current_).empty())      // no legal moves
+        loser = current_;
+
+    if (loser != 0)
+        return otherPlayer(loser);
+
+    if (movesSinceCapture_ >= DRAW_LIMIT)
+        return 0;
+
+    return -1;      // still going on
+}
+
+bool Fanorona::isGameOver() const {
+    return winner() != -1;
+}
+
+int Fanorona::score(int player) const {
+    if (player == 1 || player == 2)
+        return countPieces(player);
+    return 0;      // invalid
+}
+
+
+
+void Fanorona::forceNextPlayer() {
+    endTurn();
+}
+
+
 
 int Fanorona::rows() const {
     return ROWS;
