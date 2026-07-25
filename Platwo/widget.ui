@@ -261,7 +261,7 @@ border-radius:5px;
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color:#0a34ca;
+    <string notr="true">color:#0000CD;
 background:transparent;</string>
    </property>
    <property name="text">
@@ -292,7 +292,7 @@ background:transparent;</string>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color:#0a34ca;
+    <string notr="true">color:#0000CD;
 background:transparent;</string>
    </property>
    <property name="text">
@@ -325,7 +325,7 @@ background:transparent;</string>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color:#0a34ca;
+    <string notr="true">color:#0000CD;
 background:transparent;</string>
    </property>
    <property name="text">

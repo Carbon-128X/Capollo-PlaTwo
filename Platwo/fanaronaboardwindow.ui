@@ -490,6 +490,13 @@ border:none;</string>
      <height>0</height>
     </size>
    </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="styleSheet">
     <string notr="true">QPushButton
 {
@@ -536,6 +543,13 @@ background:#0284e8;
      <width>0</width>
      <height>0</height>
     </size>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="styleSheet">
     <string notr="true">QPushButton
@@ -584,6 +598,13 @@ background:#0284e8;
      <height>0</height>
     </size>
    </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="styleSheet">
     <string notr="true">QPushButton
 {
@@ -631,7 +652,7 @@ background:#0284e8;
   <customwidget>
    <class>BoardWidget</class>
    <extends>QWidget</extends>
-   <header location="global">boardwidget.h</header>
+   <header>boardwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

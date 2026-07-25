@@ -326,7 +326,7 @@ background:transparent;</string>
     <property name="font">
      <font>
       <family>Sitka Text</family>
-      <pointsize>13</pointsize>
+      <pointsize>14</pointsize>
       <bold>true</bold>
      </font>
     </property>
@@ -374,7 +374,7 @@ background:#0284e8;
     <property name="font">
      <font>
       <family>Sitka Text</family>
-      <pointsize>13</pointsize>
+      <pointsize>14</pointsize>
       <bold>true</bold>
      </font>
     </property>
@@ -422,7 +422,7 @@ background:#0284e8;
     <property name="font">
      <font>
       <family>Sitka Text</family>
-      <pointsize>13</pointsize>
+      <pointsize>14</pointsize>
       <bold>true</bold>
      </font>
     </property>

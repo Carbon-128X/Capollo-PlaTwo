@@ -6,23 +6,51 @@
 #include "gamewindow.h"
 #include <QApplication>
 #include <QPixmap>
+#include <QGraphicsDropShadowEffect>
 
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent) , ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
 
-    videoBackground = new VideoBackgroundWidget(this);
-    videoBackground->setGeometry(rect());
-    videoBackground->lower();
-    videoBackground->setVideo(":/images/images/300.mp4");
+    ui->boxesButton->setIcon(QIcon(":/images/images/4444.png"));
+    ui->boxesButton->setIconSize(QSize(145,145));
+
+    ui->morrisButton->setIcon(QIcon(":/images/images/3333.png"));
+    ui->morrisButton->setIconSize(QSize(140,140));
+
+    ui->fanoronaButton->setIcon(QIcon(":/images/images/2222.png"));
+    ui->fanoronaButton->setIconSize(QSize(140,140));
+
+
+
+    ui->backgroundLabel->setPixmap(QPixmap(":/images/images/1212.png"));
+    ui->backgroundLabel->setScaledContents(true);
+    ui->backgroundLabel->setGeometry(rect());
+    ui->backgroundLabel->lower();
 
 
     selectedGame = None;
+
+    auto glow1 = new QGraphicsDropShadowEffect(this);
+    glow1->setBlurRadius(35);
+    glow1->setOffset(0);
+    glow1->setColor(QColor(0,220,255));
+    ui->boxesButton->setGraphicsEffect(glow1);
+
+    auto glow2 = new QGraphicsDropShadowEffect(this);
+    glow2->setBlurRadius(35);
+    glow2->setOffset(0);
+    glow2->setColor(QColor(0,220,255));
+    ui->morrisButton->setGraphicsEffect(glow2);
+
+    auto glow3 = new QGraphicsDropShadowEffect(this);
+    glow3->setBlurRadius(35);
+    glow3->setOffset(0);
+    glow3->setColor(QColor(0,220,255));
+    ui->fanoronaButton->setGraphicsEffect(glow3);
+
     ui->gameTitle->setText("Welcome, " + UserManager::currentUser.name + "!");
-    ui->gameDescription->setText("Choose one of the games from the menu.");
-    //QPixmap logo(":/images/images/capollo.jpg");
-    //ui->gameImage->setPixmap(logo.scaled( ui->gameImage->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    ui->gameImage->setAlignment(Qt::AlignCenter);
+    ui->gameDescription->setText("Choose one of the games.");
     ui->startGameButton->setEnabled(false);
 }
 
@@ -34,8 +62,6 @@ void MainWindow::showBoxes() {
     selectedGame = Boxes;
     ui->gameTitle->setText("Boxes and Dots");
     ui->gameDescription->setText( "Connect dots to complete boxes and earn more points than your opponent.");
-    QPixmap image(":/images/images/boxes.jpg");
-    ui->gameImage->setPixmap( image.scaled( ui->gameImage->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     ui->startGameButton->setEnabled(true);
 }
 
@@ -43,8 +69,6 @@ void MainWindow::showMorris() {
     selectedGame = Morris;
     ui->gameTitle->setText("Nine Men's Morris");
     ui->gameDescription->setText( "Create mills and capture your opponent's pieces to win.");
-    QPixmap image(":/images/images/morris.jpg");
-    ui->gameImage->setPixmap( image.scaled( ui->gameImage->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     ui->startGameButton->setEnabled(true);
 }
 
@@ -52,8 +76,6 @@ void MainWindow::showFanorona() {
     selectedGame = Fanorona;
     ui->gameTitle->setText("Fanorona");
     ui->gameDescription->setText( "Traditional strategy game from Madagascar with unique capture rules.");
-    QPixmap image(":/images/images/fanorona.jpg");
-    ui->gameImage->setPixmap( image.scaled( ui->gameImage->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     ui->startGameButton->setEnabled(true);
 }
 
@@ -106,6 +128,5 @@ void MainWindow::on_exitButton_clicked() {
 void MainWindow::resizeEvent(QResizeEvent *event) {
     QWidget::resizeEvent(event);
 
-    if(videoBackground)
-        videoBackground->setGeometry(rect());
+    ui->backgroundLabel->setGeometry(rect());
 }

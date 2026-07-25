@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 #include <QWidget>
 #include <QPixmap>
-#include "videobackgroundwidget.h"
 namespace Ui {
 class MainWindow;
 }
@@ -38,7 +37,6 @@ private:
     void showMorris();
     void showFanorona();
 
-    VideoBackgroundWidget *videoBackground;
 protected:
     void resizeEvent(QResizeEvent *event) override;
 };
