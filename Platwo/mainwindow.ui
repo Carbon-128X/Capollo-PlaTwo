@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>PLATWO</string>
+   <string>Platwo</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color:#101010;</string>

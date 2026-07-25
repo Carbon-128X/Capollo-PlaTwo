@@ -183,10 +183,15 @@ void BoardWidget::paintEvent(QPaintEvent *) {
         }
     }
     // Draw Dots
-    painter.setPen(Qt::NoPen);
-    painter.setBrush(Qt::black);
+    QFont nodeFont("Segoe UI Emoji");
+    nodeFont.setPixelSize(22);
+    nodeFont.setBold(true);
+    painter.setFont(nodeFont);
+    painter.setPen(QColor("#121212"));
+
     for(const QPoint &p : dots) {
-        painter.drawEllipse(p,6,6);
+        QRect rect(p.x()-12, p.y()-12, 24, 24);
+        painter.drawText( rect, Qt::AlignCenter, QStringLiteral("◉") );
     }
 }
 void BoardWidget::mouseMoveEvent(QMouseEvent *event) {
