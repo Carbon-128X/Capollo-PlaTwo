@@ -5,6 +5,8 @@
 
 using namespace std;
 
+// tip: Move{-1,-1} means "finishing the turn".
+
 class Fanorona : public GameMediator {
 private:
     int board_[45];      // 0 = empty, 1 = player 1, 2 = player 2
@@ -16,6 +18,26 @@ private:
     vector<int> visited_;      // positions that piece already used in this turn
     int lastDir_;      // last direction the piece moved (can't be repeated)
     int movesSinceCapture_;      // counter for the draw rule
+
+    // ----------------------------------------- helper functions -----------------------------------------
+    int otherPlayer(int player) const;
+    int rowOf(int pos) const;
+    int colOf(int pos) const;
+    int posOf(int row, int col) const;
+    bool inBoard(int row, int col) const;
+    bool isStrong(int pos) const;     // returns true if this point have diagonal lines
+    int step(int pos, int dir) const;      // neighbour position in a direction (-1 if invalid)
+    bool connected(int pos, int dir) const;      // returns true if there is a real line to the direction
+    int dirBetween(int from, int to) const;      // direction from a point to a neighbour
+    int countPieces(int player) const;
+    vector<int> approachTargets(int to, int dir, int enemy) const;
+    vector<int> withdrawTargets(int from, int dir, int enemy) const;
+    bool canCapture(int from, int to) const;      // returns true if this step can capture
+    vector<Move> allSteps(int player) const;
+    vector<Move> capturingSteps(int player) const;      // the steps that capture
+    vector<Move> chainMoves() const;
+    void doCapture(int from, int to);
+    void endTurn();
 
 public:
     // constructor
