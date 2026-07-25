@@ -20,6 +20,7 @@ private:
     int movesSinceCapture_;      // counter for the draw rule
 
     // ----------------------------------------- helper functions -----------------------------------------
+    int oppositeDir(int dir) const;
     int otherPlayer(int player) const;
     int rowOf(int pos) const;
     int colOf(int pos) const;
@@ -30,7 +31,7 @@ private:
     bool connected(int pos, int dir) const;      // returns true if there is a real line to the direction
     int dirBetween(int from, int to) const;      // direction from a point to a neighbour
     int countPieces(int player) const;
-    vector<int> approachTargets(int to, int dir, int enemy) const;
+    vector<int> approachTargets(int destination, int dir, int enemy) const;
     vector<int> withdrawTargets(int from, int dir, int enemy) const;
     bool canCapture(int from, int to) const;      // returns true if this step can capture
     vector<Move> allSteps(int player) const;
