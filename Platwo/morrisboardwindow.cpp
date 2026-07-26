@@ -178,6 +178,8 @@ void MorrisBoardWindow::setNetworkGame(NetworkGame *net){
     networkGame = net;
     if(!networkGame) return;
 
+    ui->boardWidget->setNetworkMode(true);
+
     connect(ui->boardWidget, &MorrisBoardWidget::moveSelected, this,[=](const Move &move) {
      networkGame->playMove(move);
     });

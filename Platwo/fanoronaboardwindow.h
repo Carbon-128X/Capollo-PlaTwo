@@ -6,9 +6,6 @@
 #include "fanoronaboardwidget.h"
 #include "networkGame.h"
 
-NetworkGame *networkGame = nullptr;
-
-void setNetworkGame(NetworkGame *net);
 namespace Ui {
 class FanoronaBoardWindow;
 }

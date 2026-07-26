@@ -157,7 +157,7 @@ void FanoronaBoardWidget::paintEvent(QPaintEvent *) {
     }
 }
 void FanoronaBoardWidget::mousePressEvent(QMouseEvent *event) {
-    if(!game){
+    if(!game || !myTurn){
         return;
     }
 

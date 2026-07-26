@@ -178,11 +178,8 @@ void MorrisBoardWidget::mousePressEvent(QMouseEvent *event) {
         std::vector<Move> legal = game->legalMoves();
 
         for(const Move &m : legal)
-            if(m.from == selectedFrom && m.to == pos)
-            {
-                submitMove(m);
-                return;
-            }
+            if(m.from == selectedFrom)
+                highlightedMoves.push_back(m.to);
 
         update();
         return;
@@ -196,20 +193,7 @@ void MorrisBoardWidget::mousePressEvent(QMouseEvent *event) {
         {
             if(m.from == selectedFrom && m.to == pos)
             {
-                if(game->applyMove(m))
-                {
-                    highlightedMoves.clear();
-                    selectedFrom = -1;
-
-                    if (game->notPlaced(1) > 0 || game->notPlaced(2) > 0)
-                        placingPhase = true;
-                    else
-                        placingPhase = false;
-
-                    update();
-                    emit boardChanged();
-                }
-
+                submitMove(m);
                 return;
             }
         }
