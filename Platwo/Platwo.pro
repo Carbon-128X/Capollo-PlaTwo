@@ -25,7 +25,6 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     morrisboardwidget.cpp \
-    morrisboardwidget.cpp \
     morrisboardwindow.cpp \
     networkclient.cpp \
     networkserver.cpp \
@@ -56,7 +55,6 @@ HEADERS += \
     logic/nineMensMorris.h \
     loginwindow.h \
     mainwindow.h \
-    morrisboardwidget.h \
     morrisboardwidget.h \
     morrisboardwindow.h \
     networkclient.h \
