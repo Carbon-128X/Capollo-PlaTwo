@@ -73,6 +73,23 @@ void MorrisBoardWidget::paintEvent(QPaintEvent *) {
     for(int pos : highlightedMoves)
         painter.drawEllipse(positions[pos],10,10);
 
+    // showing the selected piece
+    if(selectedFrom != -1)
+    {
+        painter.setBrush(QColor(255,255,0,80));
+        painter.setPen(Qt::NoPen);
+        painter.drawEllipse(positions[selectedFrom],22,22);
+    }
+    // showing the removable pieces
+    if(game->mustRemove())
+    {
+        painter.setBrush(QColor(255,50,50,170));
+        painter.setPen(Qt::NoPen);
+        std::vector<Move> legal = game->legalMoves();
+        for(const Move &m : legal)
+            painter.drawEllipse(positions[m.to],22,22);
+    }
+
     for(int i = 0; i < 24; i++)
     {
         int state = game->posStatus(i);
@@ -108,6 +125,33 @@ void MorrisBoardWidget::mousePressEvent(QMouseEvent *event) {
         return;
 
 
+    if(game->mustRemove())      // removing
+    {
+        std::vector<Move> legal = game->legalMoves();
+
+        for(const Move &m : legal)
+            if(m.to == pos)
+            {
+                if(game->applyMove(m))
+                {
+                    highlightedMoves.clear();
+                    selectedFrom = -1;
+
+                    if (game->notPlaced(1) > 0 || game->notPlaced(2) > 0)
+                        placingPhase = true;
+                    else
+                        placingPhase = false;
+
+                    update();
+                    emit boardChanged();
+                }
+
+                return;
+            }
+
+        return;
+    }
+
     if(placingPhase)      // if we were still in placing phase
     {
         std::vector<Move> legal = game->legalMoves();
@@ -130,6 +174,7 @@ void MorrisBoardWidget::mousePressEvent(QMouseEvent *event) {
     }
 
     int currentPlayer = game->currentPlayer();
+    highlightedMoves.clear();
     if(game->posStatus(pos) == currentPlayer)
     {
         selectedFrom = pos;
@@ -145,13 +190,14 @@ void MorrisBoardWidget::mousePressEvent(QMouseEvent *event) {
     }
 
     if(selectedFrom != -1)
-        for(int target : highlightedMoves)
-            if(target == pos) {
-                Move move;
-                move.from = selectedFrom;
-                move.to = target;
+    {
+        std::vector<Move> legal = game->legalMoves();
 
-                if(game->applyMove(move))
+        for(const Move &m : legal)
+        {
+            if(m.from == selectedFrom && m.to == pos)
+            {
+                if(game->applyMove(m))
                 {
                     highlightedMoves.clear();
                     selectedFrom = -1;
@@ -163,11 +209,17 @@ void MorrisBoardWidget::mousePressEvent(QMouseEvent *event) {
 
                     update();
                     emit boardChanged();
-
                 }
 
                 return;
             }
+        }
+
+        highlightedMoves.clear();
+        selectedFrom = -1;
+        update();
+        return;
+    }
 }
 
 void MorrisBoardWidget::calculatePositions(){

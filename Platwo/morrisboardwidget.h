@@ -13,7 +13,6 @@ private:
     NineMensMorris *game = nullptr;
     QVector<QPoint> positions;
     void calculatePositions();
-    int selectedPosition = -1;
     int selectedFrom = -1;
     QVector<int> highlightedMoves;
     bool placingPhase = true;
