@@ -12,7 +12,8 @@ SOURCES += \
     boxesboardwindow.cpp \
     custommessagebox.cpp \
     editprofilewindow.cpp \
-    fanaronaboardwindow.cpp \
+    fanoronaboardwidget.cpp \
+    fanoronaboardwindow.cpp \
     filemanager.cpp \
     forgotpasswordwindow.cpp \
     gamehistory.cpp \
@@ -43,7 +44,8 @@ HEADERS += \
     boxesboardwindow.h \
     custommessagebox.h \
     editprofilewindow.h \
-    fanaronaboardwindow.h \
+    fanoronaboardwidget.h \
+    fanoronaboardwindow.h \
     filemanager.h \
     forgotpasswordwindow.h \
     gamehistory.h \
@@ -72,7 +74,7 @@ HEADERS += \
 FORMS += \
     boxesboardwindow.ui \
     editprofilewindow.ui \
-    fanaronaboardwindow.ui \
+    fanoronaboardwindow.ui \
     forgotpasswordwindow.ui \
     gamewindow.ui \
     guestwindow.ui \
