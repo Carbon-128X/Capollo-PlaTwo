@@ -2,7 +2,9 @@ QT += widgets
 QT += multimedia multimediawidgets
 QT += network
 CONFIG += c++17
+CONFIG += resources_big
 
+INCLUDEPATH += $$PWD/network
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
@@ -16,7 +18,7 @@ SOURCES += \
     fanoronaboardwindow.cpp \
     filemanager.cpp \
     forgotpasswordwindow.cpp \
-    gameSession.cpp \
+    network/gameSession.cpp \
     gamehistory.cpp \
     gamewindow.cpp \
     guestwindow.cpp \
@@ -29,10 +31,10 @@ SOURCES += \
     mainwindow.cpp \
     morrisboardwidget.cpp \
     morrisboardwindow.cpp \
-    networkGame.cpp \
+    network/networkGame.cpp \
     networkclient.cpp \
     networkserver.cpp \
-    protocol.cpp \
+    network/protocol.cpp \
     security.cpp \
     signupwindow.cpp \
     user.cpp \
@@ -51,7 +53,7 @@ HEADERS += \
     fanoronaboardwindow.h \
     filemanager.h \
     forgotpasswordwindow.h \
-    gameSession.h \
+    network/gameSession.h \
     gamehistory.h \
     gamewindow.h \
     guestwindow.h \
@@ -64,10 +66,10 @@ HEADERS += \
     mainwindow.h \
     morrisboardwidget.h \
     morrisboardwindow.h \
-    networkGame.h \
+    network/networkGame.h \
     networkclient.h \
     networkserver.h \
-    protocol.h \
+    network/protocol.h \
     security.h \
     signupwindow.h \
     user.h \

@@ -134,7 +134,7 @@ void MorrisBoardWidget::resizeEvent(QResizeEvent *event) {
 }
 
 void MorrisBoardWidget::mousePressEvent(QMouseEvent *event) {
-    if(!game)
+    if(!game || !myTurn)
         return;
 
     int pos = positionAt(event->pos());
@@ -149,20 +149,7 @@ void MorrisBoardWidget::mousePressEvent(QMouseEvent *event) {
         for(const Move &m : legal)
             if(m.to == pos)
             {
-                if(game->applyMove(m))
-                {
-                    highlightedMoves.clear();
-                    selectedFrom = -1;
-
-                    if (game->notPlaced(1) > 0 || game->notPlaced(2) > 0)
-                        placingPhase = true;
-                    else
-                        placingPhase = false;
-
-                    update();
-                    emit boardChanged();
-                }
-
+                submitMove(m);
                 return;
             }
 
@@ -175,15 +162,7 @@ void MorrisBoardWidget::mousePressEvent(QMouseEvent *event) {
         for(const Move &m : legal)
             if(m.to == pos)
             {
-                if(game->applyMove(m))
-                {
-                    if (game->notPlaced(1) > 0 || game->notPlaced(2) > 0)
-                        placingPhase = true;
-                    else
-                        placingPhase = false;
-                    update();
-                    emit boardChanged();
-                }
+                submitMove(m);
                 return;
             }
 
@@ -214,20 +193,7 @@ void MorrisBoardWidget::mousePressEvent(QMouseEvent *event) {
         {
             if(m.from == selectedFrom && m.to == pos)
             {
-                if(game->applyMove(m))
-                {
-                    highlightedMoves.clear();
-                    selectedFrom = -1;
-
-                    if (game->notPlaced(1) > 0 || game->notPlaced(2) > 0)
-                        placingPhase = true;
-                    else
-                        placingPhase = false;
-
-                    update();
-                    emit boardChanged();
-                }
-
+                submitMove(m);
                 return;
             }
         }
@@ -303,4 +269,57 @@ void MorrisBoardWidget::setPlayers( const QString &p1, const QString &p2, const 
     player2Color = c2;
 
     update();
+}
+
+void MorrisBoardWidget::setMyTurn(bool value)
+{
+    myTurn = value;
+}
+
+void MorrisBoardWidget::setNetworkMode(bool value)
+{
+    networkMode = value;
+}
+
+void MorrisBoardWidget::submitMove(const Move &move)
+{
+    selectedFrom = -1;
+    highlightedMoves.clear();
+
+    if (networkMode)
+    {
+        emit moveSelected(move);
+        update();
+        return;
+    }
+
+    if (game && game->applyMove(move))
+    {
+        placingPhase =
+            game->notPlaced(1) > 0 ||
+            game->notPlaced(2) > 0;
+
+        emit boardChanged();
+    }
+
+    update();
+}
+
+void MorrisBoardWidget::applyRemoteMove(const Move &move)
+{
+    if (!game)
+        return;
+
+    if (game->applyMove(move))
+    {
+        selectedFrom = -1;
+        highlightedMoves.clear();
+
+        placingPhase =
+            game->notPlaced(1) > 0 ||
+            game->notPlaced(2) > 0;
+
+        update();
+        emit boardChanged();
+    }
 }
