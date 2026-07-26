@@ -88,7 +88,26 @@ void MorrisBoardWidget::resizeEvent(QResizeEvent *event) {
 }
 
 void MorrisBoardWidget::mousePressEvent(QMouseEvent *event) {
-    QWidget::mousePressEvent(event);
+    if(!game)
+        return;
+
+    int pos = positionAt(event->pos());
+    if(pos == -1)
+        return;
+
+    QVector<Move> moves;
+    std::vector<Move> legal = game->legalMoves();
+
+    for(const Move &m : legal)
+        if(m.to == pos)
+        {
+            if(game->applyMove(m))
+            {
+                update();
+                emit boardChanged();
+            }
+            break;
+        }
 }
 
 void MorrisBoardWidget::calculatePositions(){
