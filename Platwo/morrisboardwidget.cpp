@@ -20,11 +20,62 @@ void MorrisBoardWidget::paintEvent(QPaintEvent *) {
     painter.setRenderHint(QPainter::Antialiasing);
     painter.fillRect(rect(), QColor(25,25,25));
 
+    painter.setPen(QPen(QColor(80,170,255),3));
+
+    // outer square
+    painter.drawLine(positions[0], positions[2]);
+    painter.drawLine(positions[2], positions[4]);
+    painter.drawLine(positions[4], positions[6]);
+    painter.drawLine(positions[6], positions[0]);
+
+    // middle square
+    painter.drawLine(positions[8], positions[10]);
+    painter.drawLine(positions[10], positions[12]);
+    painter.drawLine(positions[12], positions[14]);
+    painter.drawLine(positions[14], positions[8]);
+
+    // inner square
+    painter.drawLine(positions[16], positions[18]);
+    painter.drawLine(positions[18], positions[20]);
+    painter.drawLine(positions[20], positions[22]);
+    painter.drawLine(positions[22], positions[16]);
+
+
+    // connecting them(squares) together
+    painter.drawLine(positions[1],positions[9]);
+    painter.drawLine(positions[9],positions[17]);
+
+    painter.drawLine(positions[3],positions[11]);
+    painter.drawLine(positions[11],positions[19]);
+
+    painter.drawLine(positions[5],positions[13]);
+    painter.drawLine(positions[13],positions[21]);
+
+    painter.drawLine(positions[7],positions[15]);
+    painter.drawLine(positions[15],positions[23]);
     painter.setBrush(Qt::white);
     painter.setPen(Qt::NoPen);
 
     for(const QPoint &p : positions)
         painter.drawEllipse(p,6,6);
+
+    for(int i = 0; i < 24; i++)
+    {
+        int state = game->posStatus(i);
+        if(state==0)
+            continue;
+
+        QColor color;
+        if(state==1)
+            color = Qt::red;
+
+        else
+            color = Qt::blue;
+
+        painter.setBrush(color);
+        painter.setPen(Qt::black);
+        painter.drawEllipse(positions[i],14,14);
+    }
 }
 
 void MorrisBoardWidget::resizeEvent(QResizeEvent *event) {
