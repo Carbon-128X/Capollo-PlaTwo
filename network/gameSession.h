@@ -10,25 +10,39 @@ class GameSession {
 private:
     GameMediator* game_;
     int localPlayer_;
-    int gaveupBy_;      // 0 = nobody, otherwise who gave up or had time over
-    string lastChat_;
+    bool host_;
+    int gaveupBy_;
+    int nextSequence_;
+    bool waitingForMove_;
+    bool lastAccepted_;
+    bool lastChangedBoard_;
+    // string lastChat_;      // Chat is temporarily disabled.
+    string lastError_;
 
     int otherPlayer(int player) const;
+    bool moveIsLegal(const Move& move) const;
+    vector<string> error(const string& text);
 
 public:
-    GameSession(GameMediator* game, int localPlayer);
+    GameSession(GameMediator* game, int localPlayer, bool host);
 
-    // Each one returns the messages that must be sent to the other side.
     vector<string> makeLocalMove(const Move& move);
-    void handleMessage(const string& line);      // receiving a line from the other side
-    vector<string> sendChat(const string& text);
-    vector<string> giveupLocal();      // gave up or time over
+    vector<string> handleMessage(const string& line);
+    // vector<string> sendChat(const string& text);      // Chat is temporarily disabled.
+    vector<string> timeoutCurrentPlayer();
+    vector<string> resignLocal();
 
-    // -------------------- read access for UI --------------------
+    // Read access for the UI and NetworkGame.
     const GameMediator* game() const;
     int localPlayer() const;
+    bool isHost() const;
     bool isMyTurn() const;
     bool isOver() const;
-    int winner() const;      // same as GameMediator, but knows about giving up
-    string lastChat() const;
+    int winner() const;
+    int nextSequence() const;
+    bool waitingForMove() const;
+    bool lastAccepted() const;
+    bool lastChangedBoard() const;
+    // string lastChat() const;      // Chat is temporarily disabled.
+    string lastError() const;
 };
