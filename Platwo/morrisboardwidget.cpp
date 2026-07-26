@@ -61,11 +61,19 @@ void MorrisBoardWidget::paintEvent(QPaintEvent *) {
 
     painter.drawLine(positions[7],positions[15]);
     painter.drawLine(positions[15],positions[23]);
-    painter.setBrush(Qt::black);
-    painter.setPen(Qt::NoPen);
+    // ---------------------------------
+    QFont gearFont("Segoe UI Emoji");
+    gearFont.setPixelSize(25);
+    gearFont.setBold(true);
 
-    for(const QPoint &p : positions)
-        painter.drawEllipse(p,8,8);
+    painter.setFont(gearFont);
+    painter.setPen(QColor("#121212"));
+
+    for(const QPoint &p : positions) {
+        QRect textRect(p.x() - 12, p.y() - 12, 24, 24);
+        painter.drawText(textRect, Qt::AlignCenter, QStringLiteral("◉"));
+    }
+    // ---------------------------------
 
     painter.setBrush(QColor(255,255,0,120));
     painter.setPen(Qt::NoPen);
