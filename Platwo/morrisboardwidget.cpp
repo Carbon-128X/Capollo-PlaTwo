@@ -18,9 +18,11 @@ void MorrisBoardWidget::paintEvent(QPaintEvent *) {
 
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
-    painter.fillRect(rect(), QColor(25,25,25));
 
-    painter.setPen(QPen(QColor(80,170,255),3));
+    QPen pen(QColor("#00E5FF"));
+    pen.setWidth(4);
+    pen.setCapStyle(Qt::RoundCap);
+    painter.setPen(pen);
 
     // outer square
     painter.drawLine(positions[0], positions[2]);
@@ -53,11 +55,11 @@ void MorrisBoardWidget::paintEvent(QPaintEvent *) {
 
     painter.drawLine(positions[7],positions[15]);
     painter.drawLine(positions[15],positions[23]);
-    painter.setBrush(Qt::white);
+    painter.setBrush(Qt::black);
     painter.setPen(Qt::NoPen);
 
     for(const QPoint &p : positions)
-        painter.drawEllipse(p,6,6);
+        painter.drawEllipse(p,8,8);
 
     for(int i = 0; i < 24; i++)
     {
@@ -67,14 +69,16 @@ void MorrisBoardWidget::paintEvent(QPaintEvent *) {
 
         QColor color;
         if(state==1)
-            color = Qt::red;
+            color = QColor("#FF3B3B");
 
         else
-            color = Qt::blue;
+            color = QColor("#2F80FF");
 
         painter.setBrush(color);
-        painter.setPen(Qt::black);
-        painter.drawEllipse(positions[i],14,14);
+        QPen piecePen(Qt::black);
+        piecePen.setWidth(2);
+        painter.setPen(piecePen);
+        painter.drawEllipse(positions[i],16,16);
     }
 }
 
