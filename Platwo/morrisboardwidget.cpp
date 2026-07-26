@@ -98,16 +98,25 @@ void MorrisBoardWidget::paintEvent(QPaintEvent *) {
 
         QColor color;
         if(state==1)
-            color = QColor("#FF3B3B");
+            color = player1Color;
 
         else
-            color = QColor("#2F80FF");
+            color = player2Color;
 
-        painter.setBrush(color);
+        QRadialGradient gradient(positions[i] - QPoint(6,6), 18);
+        gradient.setColorAt(0.0, color.lighter(170));   // hilighting
+        gradient.setColorAt(0.6, color);
+        gradient.setColorAt(1.0, color.darker(170));    // shadow
+        painter.setBrush(gradient);
         QPen piecePen(Qt::black);
         piecePen.setWidth(2);
         painter.setPen(piecePen);
         painter.drawEllipse(positions[i],16,16);
+
+        // light reflex
+        painter.setBrush(QColor(255,255,255,80));
+        painter.setPen(Qt::NoPen);
+        painter.drawEllipse( positions[i].x()-6, positions[i].y()-8, 7, 7 );
     }
 }
 
@@ -277,4 +286,13 @@ int MorrisBoardWidget::positionAt(const QPoint &pos) const {
             return i;
 
     return -1;
+}
+
+void MorrisBoardWidget::setPlayers( const QString &p1, const QString &p2, const QColor &c1, const QColor &c2){
+    player1Name = p1;
+    player2Name = p2;
+    player1Color = c1;
+    player2Color = c2;
+
+    update();
 }

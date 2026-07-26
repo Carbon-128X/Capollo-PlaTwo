@@ -3,6 +3,8 @@
 #include <QWidget>
 #include <QPoint>
 #include <QColor>
+#include <QString>
+#include <QVector>
 #include "logic/nineMensMorris.h"
 
 class MorrisBoardWidget : public QWidget {
@@ -18,6 +20,12 @@ private:
     bool placingPhase = true;
     static constexpr int CLICK_RADIUS = 20;
 
+    QString player1Name;
+    QString player2Name;
+
+    QColor player1Color;
+    QColor player2Color;
+
     int positionAt(const QPoint &pos) const;
 
 protected:
@@ -29,6 +37,7 @@ public:
     // constructor
     explicit MorrisBoardWidget(QWidget *parent = nullptr);
     void setGame(NineMensMorris *g);
+    void setPlayers(const QString &p1, const QString &p2, const QColor &c1, const QColor &c2);
 
 signals:
     void boardChanged();
