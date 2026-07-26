@@ -13,6 +13,11 @@ private:
     NineMensMorris *game = nullptr;
     QVector<QPoint> positions;
     void calculatePositions();
+    int selectedPosition = -1;
+    int selectedFrom = -1;
+    static constexpr int CLICK_RADIUS = 20;
+
+    int positionAt(const QPoint &pos) const;
 
 protected:
     void paintEvent(QPaintEvent *event) override;

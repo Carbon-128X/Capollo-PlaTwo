@@ -139,3 +139,11 @@ void MorrisBoardWidget::calculatePositions(){
     positions << QPoint(center.x()-i, center.y()+i);
     positions << QPoint(center.x()-i, center.y());
 }
+
+int MorrisBoardWidget::positionAt(const QPoint &pos) const {
+    for(int i=0;i<positions.size();i++)
+        if(QLineF(pos, positions[i]).length() <= CLICK_RADIUS)
+            return i;
+
+    return -1;
+}
