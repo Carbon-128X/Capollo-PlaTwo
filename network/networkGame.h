@@ -4,7 +4,7 @@
 #include <QTcpSocket>
 #include <QString>
 #include "gameSession.h"
-#include "logic/gameMediator.h"
+#include "../logic/gameMediator.h"
 
 // Host:
 //   startHost(config, player, port)
