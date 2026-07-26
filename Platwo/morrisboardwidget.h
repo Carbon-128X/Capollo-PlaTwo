@@ -28,6 +28,11 @@ private:
 
     int positionAt(const QPoint &pos) const;
 
+    bool myTurn = true;
+    bool networkMode = false;
+
+    void submitMove(const Move &move);
+
 protected:
     void paintEvent(QPaintEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
@@ -36,11 +41,18 @@ protected:
 public:
     // constructor
     explicit MorrisBoardWidget(QWidget *parent = nullptr);
+
     void setGame(NineMensMorris *g);
     void setPlayers(const QString &p1, const QString &p2, const QColor &c1, const QColor &c2);
 
+    // network
+    void applyRemoteMove(const Move &move);
+    void setMyTurn(bool value);
+    void setNetworkMode(bool value);
+
 signals:
     void boardChanged();
+    void moveSelected(const Move &move);
 
 };
 
