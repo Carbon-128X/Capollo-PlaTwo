@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FanaronaBoardWindow</class>
- <widget class="QWidget" name="FanaronaBoardWindow">
+ <class>FanoronaBoardWindow</class>
+ <widget class="QWidget" name="FanoronaBoardWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -22,8 +22,8 @@
   <widget class="QLabel" name="timerLabel">
    <property name="geometry">
     <rect>
-     <x>563</x>
-     <y>69</y>
+     <x>540</x>
+     <y>70</y>
      <width>101</width>
      <height>51</height>
     </rect>
@@ -350,9 +350,9 @@ background:transparent;</string>
   <widget class="QLabel" name="currentTurnLabel">
    <property name="geometry">
     <rect>
-     <x>397</x>
+     <x>387</x>
      <y>70</y>
-     <width>91</width>
+     <width>101</width>
      <height>51</height>
     </rect>
    </property>
@@ -447,32 +447,6 @@ background:transparent;</string>
    </property>
    <property name="text">
     <string>TURN:</string>
-   </property>
-  </widget>
-  <widget class="BoardWidget" name="boardWidget" native="true">
-   <property name="geometry">
-    <rect>
-     <x>350</x>
-     <y>127</y>
-     <width>530</width>
-     <height>320</height>
-    </rect>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>1200</width>
-     <height>700</height>
-    </size>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background: transparent;
-border:none;</string>
    </property>
   </widget>
   <widget class="QPushButton" name="saveButton">
@@ -637,22 +611,32 @@ background:#0284e8;
     <string>Exit</string>
    </property>
   </widget>
+  <widget class="FanoronaBoardWidget" name="boardWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>129</y>
+     <width>551</width>
+     <height>321</height>
+    </rect>
+   </property>
+  </widget>
   <zorder>backgroundLabel</zorder>
   <zorder>currentTurnTitle</zorder>
   <zorder>timerTitleLabel</zorder>
   <zorder>currentTurnLabel</zorder>
   <zorder>infoWidget</zorder>
   <zorder>timerLabel</zorder>
-  <zorder>boardWidget</zorder>
   <zorder>saveButton</zorder>
   <zorder>restartButton</zorder>
   <zorder>exitButton</zorder>
+  <zorder>boardWidget</zorder>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>BoardWidget</class>
+   <class>FanoronaBoardWidget</class>
    <extends>QWidget</extends>
-   <header>boardwidget.h</header>
+   <header>fanoronaboardwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

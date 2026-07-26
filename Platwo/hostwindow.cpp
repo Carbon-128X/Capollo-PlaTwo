@@ -8,7 +8,7 @@
 #include <QIcon>
 #include "custommessagebox.h"
 #include "morrisboardwindow.h"
-
+#include "fanoronaboardwindow.h"
 HostWindow::HostWindow(GameWindow::GameType game, QWidget *parent): QWidget(parent),ui(new Ui::HostWindow),currentGame(game){
     ui->setupUi(this);
 
@@ -155,6 +155,10 @@ void HostWindow::on_createRoomButton_clicked() {
         board->show();
     }
 
+    else if(currentGame == GameWindow::Fanorona){
+        FanoronaBoardWindow *board = new FanoronaBoardWindow( timerEnabled, gameTime, "HostUser", "GuestUser", selectedHostColor, Qt::red );
+        board->show();
+    }
     this->close();
 }
 
