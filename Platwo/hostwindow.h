@@ -4,7 +4,7 @@
 #include "gamewindow.h"
 #include <QColor>
 #include <QVector>
-#include "networkserver.h"
+#include "networkGame.h"
 #include <QHostAddress>
 namespace Ui {
 class HostWindow;
@@ -41,7 +41,7 @@ private:
     QVector<QColor> availableColors;
     QColor selectedHostColor;
 
-    NetworkServer *server = nullptr;
+    NetworkGame *networkGame = nullptr;
 protected:
     void resizeEvent(QResizeEvent *event) override;
 };

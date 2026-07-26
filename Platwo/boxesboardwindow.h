@@ -3,6 +3,7 @@
 #include <QTimer>
 #include <QWidget>
 #include "logic/dotsAndBoxes.h"
+#include "networkGame.h"
 namespace Ui {
 class BoxesBoardWindow;
 }
@@ -17,6 +18,7 @@ public:
         const QColor &player1Color,
         const QColor &player2Color,
         QWidget *parent = nullptr);
+    void setNetworkGame(NetworkGame *net);
     ~BoxesBoardWindow();
 
 
@@ -24,6 +26,7 @@ private:
 
     Ui::BoxesBoardWindow *ui;
     DotsAndBoxes *game = nullptr;
+    NetworkGame *networkGame = nullptr;
     void initializeWindow();
     void initializePlayers();
     void initializeButtons();
@@ -46,6 +49,7 @@ private:
     QColor player2Color;
     bool gameFinished = false;
     int winnerPlayer = -1;
+
 
 private slots:
     void on_exitButton_clicked();

@@ -12,9 +12,11 @@ SOURCES += \
     boxesboardwindow.cpp \
     custommessagebox.cpp \
     editprofilewindow.cpp \
-    fanaronaboardwindow.cpp \
+    fanoronaboardwidget.cpp \
+    fanoronaboardwindow.cpp \
     filemanager.cpp \
     forgotpasswordwindow.cpp \
+    gameSession.cpp \
     gamehistory.cpp \
     gamewindow.cpp \
     guestwindow.cpp \
@@ -22,12 +24,15 @@ SOURCES += \
     logic/dotsAndBoxes.cpp \
     logic/nineMensMorris.cpp \
     loginwindow.cpp \
+    logic/fanorona.cpp \
     main.cpp \
     mainwindow.cpp \
     morrisboardwidget.cpp \
     morrisboardwindow.cpp \
+    networkGame.cpp \
     networkclient.cpp \
     networkserver.cpp \
+    protocol.cpp \
     security.cpp \
     signupwindow.cpp \
     user.cpp \
@@ -42,9 +47,11 @@ HEADERS += \
     boxesboardwindow.h \
     custommessagebox.h \
     editprofilewindow.h \
-    fanaronaboardwindow.h \
+    fanoronaboardwidget.h \
+    fanoronaboardwindow.h \
     filemanager.h \
     forgotpasswordwindow.h \
+    gameSession.h \
     gamehistory.h \
     gamewindow.h \
     guestwindow.h \
@@ -57,8 +64,10 @@ HEADERS += \
     mainwindow.h \
     morrisboardwidget.h \
     morrisboardwindow.h \
+    networkGame.h \
     networkclient.h \
     networkserver.h \
+    protocol.h \
     security.h \
     signupwindow.h \
     user.h \
@@ -66,12 +75,12 @@ HEADERS += \
     videobackgroundwidget.h \
     welcomewindow.h \
     widget.h \
-
+    logic/fanorona.h \
 
 FORMS += \
     boxesboardwindow.ui \
     editprofilewindow.ui \
-    fanaronaboardwindow.ui \
+    fanoronaboardwindow.ui \
     forgotpasswordwindow.ui \
     gamewindow.ui \
     guestwindow.ui \

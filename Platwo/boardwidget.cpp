@@ -252,9 +252,7 @@ void BoardWidget::mousePressEvent(QMouseEvent *event) {
 
         emit moveSelected(move);
 
-        if(game->applyMove(move)) {
-            emit boardChanged();
-        }
+
     }
     firstSelected=false;
     hoverValid=false;

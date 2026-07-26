@@ -1,28 +1,31 @@
-#ifndef MORRISBOARDWINDOW_H
-#define MORRISBOARDWINDOW_H
-#include "logic/nineMensMorris.h"
-#include "morrisboardwidget.h"
+#pragma once
 #include <QWidget>
 #include <QColor>
 #include <QTimer>
+#include "logic/fanorona.h"
+#include "fanoronaboardwidget.h"
 #include "networkGame.h"
+
+NetworkGame *networkGame = nullptr;
+
+void setNetworkGame(NetworkGame *net);
 namespace Ui {
-class MorrisBoardWindow;
+class FanoronaBoardWindow;
 }
 
-class MorrisBoardWindow : public QWidget
-{
+class FanoronaBoardWindow : public QWidget {
     Q_OBJECT
 
 public:
-    explicit MorrisBoardWindow( bool timer, int time, const QString &p1Name,
-                               const QString &p2Name, const QColor &p1Color, const QColor &p2Color, QWidget *parent = nullptr );
+    explicit FanoronaBoardWindow( bool timer, int time, const QString &p1Name, const QString &p2Name, const QColor &p1Color,
+                                 const QColor &p2Color, QWidget *parent = nullptr);
     void setNetworkGame(NetworkGame *net);
-    ~MorrisBoardWindow();
+    ~FanoronaBoardWindow();
 
 private:
-    Ui::MorrisBoardWindow *ui;
-    NineMensMorris *game;
+
+    Ui::FanoronaBoardWindow *ui;
+    Fanorona *game;
     bool timerEnabled;
     int gameTime;
     QString player1Name;
@@ -32,25 +35,22 @@ private:
     QTimer *turnTimer;
     int turnTime;
     int remainingTime;
-    bool gameFinished = false;
-    int winnerPlayer = -1;
-
-
+    bool gameFinished=false;
+    int winnerPlayer=-1;
     void initializeWindow();
     void initializePlayers();
     void initializeButtons();
     void updateTurn(int player);
     void updateTimer(int seconds);
     void startTurnTimer();
-    void updateScores(int p1, int p2);
-
+    void updateScores(int p1,int p2);
     NetworkGame *networkGame = nullptr;
+
 private slots:
+
     void onTimerTick();
     void refreshGameUI();
     void on_restartButton_clicked();
     void on_exitButton_clicked();
     void on_saveButton_clicked();
 };
-
-#endif // MORRISBOARDWINDOW_H
