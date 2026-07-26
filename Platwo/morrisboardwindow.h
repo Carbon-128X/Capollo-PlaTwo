@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QColor>
 #include <QTimer>
+#include "networkGame.h"
 namespace Ui {
 class MorrisBoardWindow;
 }
@@ -16,6 +17,7 @@ class MorrisBoardWindow : public QWidget
 public:
     explicit MorrisBoardWindow( bool timer, int time, const QString &p1Name,
                                const QString &p2Name, const QColor &p1Color, const QColor &p2Color, QWidget *parent = nullptr );
+    void setNetworkGame(NetworkGame *net);
     ~MorrisBoardWindow();
 
 private:
@@ -42,6 +44,7 @@ private:
     void startTurnTimer();
     void updateScores(int p1, int p2);
 
+    NetworkGame *networkGame = nullptr;
 private slots:
     void onTimerTick();
     void refreshGameUI();

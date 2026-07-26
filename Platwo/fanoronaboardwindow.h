@@ -4,7 +4,11 @@
 #include <QTimer>
 #include "logic/fanorona.h"
 #include "fanoronaboardwidget.h"
+#include "networkGame.h"
 
+NetworkGame *networkGame = nullptr;
+
+void setNetworkGame(NetworkGame *net);
 namespace Ui {
 class FanoronaBoardWindow;
 }
@@ -15,6 +19,7 @@ class FanoronaBoardWindow : public QWidget {
 public:
     explicit FanoronaBoardWindow( bool timer, int time, const QString &p1Name, const QString &p2Name, const QColor &p1Color,
                                  const QColor &p2Color, QWidget *parent = nullptr);
+    void setNetworkGame(NetworkGame *net);
     ~FanoronaBoardWindow();
 
 private:
@@ -39,6 +44,7 @@ private:
     void updateTimer(int seconds);
     void startTurnTimer();
     void updateScores(int p1,int p2);
+    NetworkGame *networkGame = nullptr;
 
 private slots:
 

@@ -5,8 +5,63 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QIcon>
+#include "morrisboardwindow.h"
+#include "boxesboardwindow.h"
+#include "fanoronaboardwindow.h"
 GuestWindow::GuestWindow(GameWindow::GameType game, QWidget *parent) : QWidget(parent), ui(new Ui::GuestWindow), currentGame(game) {
     ui->setupUi(this);
+
+    networkGame = new NetworkGame(this);
+
+    connect(networkGame,&NetworkGame::connectionFailed,this,[=](QString reason){
+      ui->statusLabel->setText(reason);
+    });
+
+    connect(networkGame,&NetworkGame::opponentConnected, this, [=]() {
+     ui->statusLabel->setText("Connected.");
+     });
+
+    connect(networkGame,&NetworkGame::gameStarted, this, [=]() {
+                if(currentGame == GameWindow::Boxes){
+                    BoxesBoardWindow *board =
+                        new BoxesBoardWindow( networkGame->config().boardSize, networkGame->config().timerEnabled,
+                            networkGame->config().turnSeconds,
+                            QString::fromStdString(networkGame->config().host.name),
+                            QString::fromStdString(networkGame->config().guest.name),
+                            QColor(QString::fromStdString(networkGame->config().host.color)),
+                            QColor(QString::fromStdString(networkGame->config().guest.color))
+                            );
+                    board->setNetworkGame(networkGame);
+                    board->show();
+                    close();
+                }
+
+                else if(currentGame == GameWindow::Morris) {
+                    MorrisBoardWindow *board =
+                        new MorrisBoardWindow( networkGame->config().timerEnabled, networkGame->config().turnSeconds,
+                            QString::fromStdString(networkGame->config().host.name),
+                            QString::fromStdString(networkGame->config().guest.name),
+                            QColor(QString::fromStdString(networkGame->config().host.color)),
+                            QColor(QString::fromStdString(networkGame->config().guest.color))
+                            );
+            board->setNetworkGame(networkGame);
+            board->show();
+            close();
+        }
+
+        else{
+            FanoronaBoardWindow *board =
+                new FanoronaBoardWindow( networkGame->config().timerEnabled, networkGame->config().turnSeconds,
+                                        QString::fromStdString(networkGame->config().host.name),
+                                        QString::fromStdString(networkGame->config().guest.name),
+                                        QColor(QString::fromStdString(networkGame->config().host.color)),
+                                        QColor(QString::fromStdString(networkGame->config().guest.color))
+                                        );
+            board->setNetworkGame(networkGame);
+            board->show();
+            close();
+        }
+    });
 
     availableColors = {
             Qt::red,
@@ -52,7 +107,7 @@ GuestWindow::GuestWindow(GameWindow::GameType game, QWidget *parent) : QWidget(p
     ui->backgroundLabel->lower();
 
     initializeWindow();
-    client = new NetworkClient(this);
+
     selectedGuestColor = availableColors[0];
 
     connect(ui->colorComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this,[=](int index){
@@ -94,14 +149,15 @@ void GuestWindow::on_joinRoomButton_clicked() {
     }
 
     ui->statusLabel->show();
-    ui->statusLabel->setText("Connecting...");
+
     QString ip = ui->ipEdit->text();
     quint16 port = ui->portEdit->text().toUShort();
 
-    if(!client->connectToServer(ip, port)) {
-        ui->statusLabel->setText("Connection failed.");
-        return;
-    }
+    PlayerInfo me;
+    me.name = "GuestUser";
+    me.color = selectedGuestColor.name().toStdString();
+    networkGame->joinHost(me, ip, port);
+
     ui->statusLabel->setText("Connecting...");
 
     /*

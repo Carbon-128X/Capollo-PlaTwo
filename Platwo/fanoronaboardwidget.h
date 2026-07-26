@@ -12,9 +12,12 @@ public:
     explicit FanoronaBoardWidget(QWidget *parent = nullptr);
     void setGame(Fanorona *g);
     void setPlayers(const QString &p1,const QString &p2,const QColor &c1,const QColor &c2);
+    void applyRemoteMove(const Move &move);
+    void setMyTurn(bool value);
 
 signals:
     void boardChanged();
+    void moveSelected(const Move &move);
 
 protected:
 
@@ -36,4 +39,6 @@ private:
     static constexpr int CLICK_RADIUS=22;
     void calculatePositions();
     int positionAt(const QPoint &pos) const;
+
+    bool myTurn = true;
 };

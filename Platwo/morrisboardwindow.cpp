@@ -120,6 +120,8 @@ void MorrisBoardWindow::refreshGameUI() {
     updateScores( game->score(1), game->score(2));
     updateTurn(game->currentPlayer());
     startTurnTimer();
+    if(networkGame) ui->boardWidget->setMyTurn(networkGame->session()->isMyTurn());
+    else ui->boardWidget->setMyTurn(true);
     ui->boardWidget->update();
     if(game->isGameOver()) {
         turnTimer->stop();
@@ -170,4 +172,21 @@ void MorrisBoardWindow::on_saveButton_clicked() {
 void MorrisBoardWindow::updateScores(int p1,int p2) {
     ui->player1ScoreLabel->setText( QString("Score : %1").arg(p1));
     ui->player2ScoreLabel->setText( QString("Score : %1").arg(p2));
+}
+
+void MorrisBoardWindow::setNetworkGame(NetworkGame *net){
+    networkGame = net;
+    if(!networkGame) return;
+
+    connect(ui->boardWidget, &MorrisBoardWidget::moveSelected, this,[=](const Move &move) {
+     networkGame->playMove(move);
+    });
+
+    connect(networkGame, &NetworkGame::remoteMoveReceived, this, [=](const Move &move) {
+     ui->boardWidget->applyRemoteMove(move);
+    });
+
+    connect(networkGame, &NetworkGame::boardChanged,this, [=](){
+     refreshGameUI();
+    });
 }

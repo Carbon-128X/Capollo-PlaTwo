@@ -1,6 +1,7 @@
 #include <QPainter>
 #include <QMouseEvent>
 #include "fanoronaboardwidget.h"
+#include "logic/move.h"
 void FanoronaBoardWidget::calculatePositions() {
     positions.clear();
     int margin = 45;
@@ -32,6 +33,23 @@ void FanoronaBoardWidget::setPlayers(const QString &p1,const QString &p2,const Q
     player2Name = p2;
     player1Color = c1;
     player2Color = c2;
+    update();
+
+}
+
+void FanoronaBoardWidget::setMyTurn(bool value) {
+    myTurn = value;
+}
+
+void FanoronaBoardWidget::applyRemoteMove(const Move &move) {
+    if(game == nullptr){
+        return;
+    }
+
+    if(game->applyMove(move)) {
+        emit boardChanged();
+    }
+
     update();
 }
 
@@ -155,12 +173,15 @@ void FanoronaBoardWidget::mousePressEvent(QMouseEvent *event) {
 
         for(const Move &m : legal){
             if(m.from == selectedFrom && m.to == pos){
-                if(game->applyMove(m)){
+
+                emit moveSelected(m);
+
+
                     highlightedMoves.clear();
                     selectedFrom = -1;
                     update();
-                    emit boardChanged();
-                }
+
+
 
                 return;
             }
@@ -176,12 +197,15 @@ void FanoronaBoardWidget::mousePressEvent(QMouseEvent *event) {
         std::vector<Move> legal = game->legalMoves();
         for(const Move &m : legal){
             if(m.from == selectedFrom && m.to == pos){
-                if(game->applyMove(m)) {
+
+                emit moveSelected(m);
+
+
                     highlightedMoves.clear();
                     selectedFrom = pos;
                     update();
-                    emit boardChanged();
-                }
+
+
                 return;
             }
         }

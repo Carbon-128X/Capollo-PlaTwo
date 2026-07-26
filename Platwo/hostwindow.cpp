@@ -11,7 +11,46 @@
 #include "fanoronaboardwindow.h"
 HostWindow::HostWindow(GameWindow::GameType game, QWidget *parent): QWidget(parent),ui(new Ui::HostWindow),currentGame(game){
     ui->setupUi(this);
+    networkGame = new NetworkGame(this);
 
+
+    connect(networkGame, &NetworkGame::gameStarted, this, [=]() {
+                if(currentGame == GameWindow::Boxes){
+                    BoxesBoardWindow *board = new BoxesBoardWindow( boardSize,timerEnabled,gameTime,
+                     QString::fromStdString(networkGame->config().host.name),
+                     QString::fromStdString(networkGame->config().guest.name),
+                     QColor(QString::fromStdString(networkGame->config().host.color)),
+                     QColor(QString::fromStdString(networkGame->config().guest.color))
+                            );
+                  board->setNetworkGame(networkGame);
+                 board->show();
+                 close();
+                }
+
+         else if(currentGame == GameWindow::Morris){
+            MorrisBoardWindow *board = new MorrisBoardWindow( timerEnabled, gameTime,
+                 QString::fromStdString(networkGame->config().host.name),
+                 QString::fromStdString(networkGame->config().guest.name),
+                 QColor(QString::fromStdString(networkGame->config().host.color)),
+                 QColor(QString::fromStdString(networkGame->config().guest.color))
+                 );
+         board->setNetworkGame(networkGame);
+         board->show();
+         close();
+                }
+
+     else{
+     FanoronaBoardWindow *board = new FanoronaBoardWindow( timerEnabled, gameTime,
+         QString::fromStdString(networkGame->config().host.name),
+         QString::fromStdString(networkGame->config().guest.name),
+         QColor(QString::fromStdString(networkGame->config().host.color)),
+         QColor(QString::fromStdString(networkGame->config().guest.color))
+         );
+          board->setNetworkGame(networkGame);
+         board->show();
+         close();
+     }
+ });
     availableColors = {
             Qt::red,
             Qt::blue,
@@ -55,7 +94,7 @@ HostWindow::HostWindow(GameWindow::GameType game, QWidget *parent): QWidget(pare
     ui->backgroundLabel->lower();
 
     initializeWindow();
-    server = new NetworkServer(this);
+
     selectedHostColor = availableColors[0];
 
     connect(ui->colorComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this,[=](int index){
@@ -118,8 +157,48 @@ void HostWindow::on_createRoomButton_clicked() {
     }
 
     quint16 port = ui->portEdit->text().toUShort();
-    if(!server->startServer(port)) {
-        CustomMessageBox::warning( this, "Server Error", "Cannot start server on this port." );
+
+    //اندازه زمین گیم
+     boardSize = 6;
+
+    if(currentGame == GameWindow::Boxes){
+        boardSize = ui->boardSizeCombo->currentText().split(" ").first().toInt();
+    }
+
+    // تایمر
+     timerEnabled = ui->timeLimitCheck->isChecked();
+     gameTime = 120;
+
+    if(timerEnabled){
+        gameTime = ui->timeEdit->text().toInt();
+    }
+
+    GameConfig config;
+
+    switch(currentGame) {
+    case GameWindow::Boxes:
+        config.gameType = GAME_DOTS_AND_BOXES;
+        config.boardSize = boardSize;
+        break;
+
+    case GameWindow::Morris:
+        config.gameType = GAME_NINE_MENS_MORRIS;
+        break;
+
+    case GameWindow::Fanorona:
+        config.gameType = GAME_FANORONA;
+        break;
+    }
+
+    config.timerEnabled = timerEnabled;
+    config.turnSeconds = gameTime;
+
+    PlayerInfo me;
+    me.name = "HostUser";
+    me.color = selectedHostColor.name().toStdString();
+
+    if(!networkGame->startHost(config, me, port)) {
+        CustomMessageBox::warning(this,"Server Error","Cannot start server.");
         return;
     }
 
@@ -128,38 +207,10 @@ void HostWindow::on_createRoomButton_clicked() {
 
     ui->ipValueLabel->setText(getLocalIP());
 
-    //اندازه زمین گیم
-    int boardSize = 6;
 
-    if(currentGame == GameWindow::Boxes){
-        boardSize = ui->boardSizeCombo->currentText().split(" ").first().toInt();
-    }
-
-    // تایمر
-    bool timerEnabled = ui->timeLimitCheck->isChecked();
-    int gameTime = 120;
-
-    if(timerEnabled){
-        gameTime = ui->timeEdit->text().toInt();
-    }
     //-----------------------------------
 
-    if(currentGame == GameWindow::Boxes)
-    {
-        BoxesBoardWindow *board = new BoxesBoardWindow( boardSize, timerEnabled, gameTime, "HostUser", "GuestUser", selectedHostColor, Qt::red );
-        board->show();
-    }
-    else if(currentGame == GameWindow::Morris)
-    {
-        MorrisBoardWindow *board = new MorrisBoardWindow(timerEnabled, gameTime, "HostUser", "GuestUser", selectedHostColor, Qt::red );
-        board->show();
-    }
 
-    else if(currentGame == GameWindow::Fanorona){
-        FanoronaBoardWindow *board = new FanoronaBoardWindow( timerEnabled, gameTime, "HostUser", "GuestUser", selectedHostColor, Qt::red );
-        board->show();
-    }
-    this->close();
 }
 
 void HostWindow::on_backButton_clicked() {

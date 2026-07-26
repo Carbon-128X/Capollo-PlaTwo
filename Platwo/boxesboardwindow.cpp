@@ -18,6 +18,7 @@ BoxesBoardWindow::BoxesBoardWindow( int board, bool timer, int time,
     remainingTime = turnTime;
     turnTimer = new QTimer(this);
     connect( turnTimer, &QTimer::timeout, this, &BoxesBoardWindow::onTimerTick );
+    connect(ui->boardWidget, &BoardWidget::boardChanged, this, &BoxesBoardWindow::refreshGameUI);
     ui->backgroundLabel->setPixmap( QPixmap(":/images/images/454545.png"));
     ui->backgroundLabel->setScaledContents(true);
 
@@ -30,7 +31,8 @@ BoxesBoardWindow::BoxesBoardWindow( int board, bool timer, int time,
     //------------------------------------------------
 
     ui->boardWidget->setGame(game);
-    connect( ui->boardWidget, &BoardWidget::boardChanged, this, &BoxesBoardWindow::refreshGameUI );
+
+
     initializeWindow();
 }
 
@@ -134,6 +136,8 @@ void BoxesBoardWindow::refreshGameUI() {
     updateTurn(game->currentPlayer());
     updateScores(game->score(1), game->score(2));
     startTurnTimer();
+    if(networkGame) ui->boardWidget->setMyTurn(networkGame->session()->isMyTurn());
+    else ui->boardWidget->setMyTurn(true);
     ui->boardWidget->update();
 
     if(game->isGameOver()) {
@@ -178,4 +182,25 @@ void BoxesBoardWindow::onTimerTick() {
 
     ui->boardWidget->setEnabled(false);
 
+}
+
+void BoxesBoardWindow::setNetworkGame(NetworkGame *net) {
+    networkGame = net;
+    if(!networkGame)return;
+
+    connect(ui->boardWidget, &BoardWidget::moveSelected, this,[=](const Move &move){
+     networkGame->playMove(move);
+     });
+
+    connect(networkGame, &NetworkGame::boardChanged, this,[=](){
+      refreshGameUI();
+    });
+
+    connect(networkGame, &NetworkGame::remoteMoveReceived,this, [=](const Move &move){
+     ui->boardWidget->applyRemoteMove(move);
+    });
+
+    connect(networkGame,&NetworkGame::turnChanged,this,[=](int){
+     refreshGameUI();
+    });
 }
