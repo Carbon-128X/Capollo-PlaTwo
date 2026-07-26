@@ -8,6 +8,12 @@ MorrisBoardWidget::MorrisBoardWidget(QWidget *parent) : QWidget(parent){
 
 void MorrisBoardWidget::setGame(NineMensMorris *g) {
     game = g;
+
+    if (game->notPlaced(1) > 0 || game->notPlaced(2) > 0)
+        placingPhase = true;
+    else
+        placingPhase = false;
+
     calculatePositions();
     update();
 }
@@ -61,6 +67,12 @@ void MorrisBoardWidget::paintEvent(QPaintEvent *) {
     for(const QPoint &p : positions)
         painter.drawEllipse(p,8,8);
 
+    painter.setBrush(QColor(255,255,0,120));
+    painter.setPen(Qt::NoPen);
+
+    for(int pos : highlightedMoves)
+        painter.drawEllipse(positions[pos],10,10);
+
     for(int i = 0; i < 24; i++)
     {
         int state = game->posStatus(i);
@@ -94,6 +106,32 @@ void MorrisBoardWidget::mousePressEvent(QMouseEvent *event) {
     int pos = positionAt(event->pos());
     if(pos == -1)
         return;
+
+
+    if(placingPhase)      // if we were still in placing phase
+    {
+        std::vector<Move> legal = game->legalMoves();
+        for(const Move &m : legal)
+            if(m.to == pos)
+            {
+                if(game->applyMove(m))
+                {
+                    if (game->notPlaced(1) > 0 || game->notPlaced(2) > 0)
+                        placingPhase = true;
+                    else
+                        placingPhase = false;
+                    update();
+                    emit boardChanged();
+                }
+                return;
+            }
+
+        return;
+    }
+
+    int currentPlayer = game->currentPlayer();
+    if(game->posStatus(pos) == currentPlayer)
+        selectedFrom = pos;
 
     QVector<Move> moves;
     std::vector<Move> legal = game->legalMoves();

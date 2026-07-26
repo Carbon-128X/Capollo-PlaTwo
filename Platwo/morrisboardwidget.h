@@ -15,6 +15,8 @@ private:
     void calculatePositions();
     int selectedPosition = -1;
     int selectedFrom = -1;
+    QVector<int> highlightedMoves;
+    bool placingPhase = true;
     static constexpr int CLICK_RADIUS = 20;
 
     int positionAt(const QPoint &pos) const;
