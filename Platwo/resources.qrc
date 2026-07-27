@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>images/4545.jpg</file>
+        <file>images/Background.mp4</file>
+        <file>images/1.mp4</file>
+        <file>images/3-4.mp4</file>
+        <file>images/20.mp4</file>
+        <file>images/87.png</file>
+        <file>images/1111.png</file>
+        <file>images/454545.png</file>
+        <file>images/0011.mp4</file>
+        <file>images/0066.mp4</file>
+        <file>images/4444.png</file>
+        <file>images/2222.png</file>
+        <file>images/3333.png</file>
+        <file>images/1212.png</file>
+    </qresource>
+</RCC>

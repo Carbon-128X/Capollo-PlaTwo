@@ -1,0 +1,28 @@
+# Qt Creator settings
+.qtcreator/
+*.pro.user
+*.pro.user.*
+
+# Build folders
+build/
+build-*/
+debug/
+release/
+
+# Windows binaries
+*.exe
+*.dll
+*.obj
+*.o
+
+# Qt generated files
+moc_*
+ui_*.h
+qrc_*.cpp
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
