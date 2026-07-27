@@ -50,8 +50,16 @@ bool EditProfileWindow::validateInput() {
         return false;
     }
 
-    if(password.length() < 8) {
-        CustomMessageBox::warning( this, "Error", "Password must be at least 8 characters.");
+    //if(password.length() < 8) {
+     //   CustomMessageBox::warning( this, "Error", "Password must be at least 8 characters.");
+     //   return false;
+   // }
+
+    QRegularExpression passwordRegex( "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).{8,}$");
+
+    if(!passwordRegex.match(password).hasMatch()){
+        CustomMessageBox::warning(this,"Weak Password","Password must contain:\n""• At least 8 characters\n""• One uppercase letter\n"
+         "• One lowercase letter\n""• One number\n""• One special character (@$!%*?&)");
         return false;
     }
 
