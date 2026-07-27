@@ -199,7 +199,7 @@ void NetworkGame::processLine(const string& line) {
 
             if (msg.playerInfo.color == config_.host.color) {
                 sendLine(convertError(
-                    "This color is already selected by the host. Choose another color."
+                    "color is selected by host Choose another color."
                     ));
                 return;
             }

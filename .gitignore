@@ -1,53 +1,242 @@
-# --- Build output ---
-build/
-build-*/
+# ==================================================
+# Qt / C++ project - generated and local files
+# ==================================================
+
+
+# --------------------------------------------------
+# Build directories
+# --------------------------------------------------
+
+/build/
+/build-*/
+/Platwo/build/
+/Platwo/build-*/
+
+[Bb]uild/
+[Bb]uild-*/
+[Dd]ebug/
+[Rr]elease/
+
+x64/
+x86/
+Win32/
+
+bin/
+obj/
+[Bb]in/
+[Oo]bj/
+
+
+# --------------------------------------------------
+# Deployment and installer output
+# --------------------------------------------------
+
+/Platwo/deploy/
+/deploy/
+
+/installer/output/
+/installer/build/
+
+/dist/
+/packages/
+
+
+# --------------------------------------------------
+# Compiled C/C++ files
+# --------------------------------------------------
+
 *.o
 *.obj
-*.exe
-*.out
+*.lo
 
-# --- Qt / qmake / CMake generated files ---
-*.pro.user
-*.pro.user.*
-moc_*.cpp
-moc_*.h
-qrc_*.cpp
-ui_*.h
+*.exe
+*.dll
+*.so
+*.dylib
+
+*.lib
+*.a
+*.la
+*.exp
+
+*.pdb
+*.idb
+*.ilk
+*.pch
+*.res
+
+*.out
+*.app
+
+
+# --------------------------------------------------
+# qmake generated files
+# --------------------------------------------------
+
 Makefile
 Makefile.*
+*.make
+
+.qmake.cache
+.qmake.stash
+qmake.stash
+
+moc_*.cpp
+moc_*.h
+moc_predefs.h
+
+qrc_*.cpp
+ui_*.h
+
+object_script.*
+.qmake/
+
+
+# --------------------------------------------------
+# Qt generated directories
+# --------------------------------------------------
+
+.moc/
+.obj/
+.rcc/
+.ui/
+.pch/
+
+debug/
+release/
+
+
+# --------------------------------------------------
+# Qt Creator local settings
+# --------------------------------------------------
+
+.qtcreator/
+
+*.pro.user
+*.pro.user.*
+*.pro.shared
+
+CMakeLists.txt.user
+CMakeLists.txt.user.*
+
+
+# --------------------------------------------------
+# CMake generated files
+# --------------------------------------------------
+
 CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
-.qmake.stash
+CTestTestfile.cmake
+install_manifest.txt
+compile_commands.json
 
-# --- Visual Studio ---
+Testing/
+_deps/
+
+
+# --------------------------------------------------
+# Visual Studio local and generated files
+# --------------------------------------------------
+
 .vs/
-Debug/
-Release/
-x64/
-x86/
-[Bb]in/
-[Oo]bj/
+
 *.vcxproj.user
 *.suo
 *.user
 *.sln.docstates
+
 *.VC.db
 *.VC.opendb
+*.opendb
+
 *.ipch
-*.pdb
-*.ilk
 *.aps
 *.opensdf
 *.sdf
+*.ncb
+
 ipch/
 
-# --- IDE / editor ---
+*.tlog
+*.lastbuildstate
+*.recipe
+*.log.enc
+
+
+# --------------------------------------------------
+# VS Code and other editors
+# --------------------------------------------------
+
 .vscode/
 .idea/
-*.swp
-*.autosave
 
-# --- OS junk ---
+*.code-workspace
+
+*.swp
+*.swo
+*.swn
+*~
+
+*.autosave
+*.bak
+*.backup
+*.tmp
+*.temp
+
+
+# --------------------------------------------------
+# Application local data
+# --------------------------------------------------
+
+users.json
+history.json
+
+settings.json
+session.json
+
+
+# --------------------------------------------------
+# Logs, crash files and test output
+# --------------------------------------------------
+
+*.log
+*.dmp
+*.stackdump
+
+test-results/
+coverage/
+
+*.gcda
+*.gcno
+*.gcov
+
+
+# --------------------------------------------------
+# Windows generated files
+# --------------------------------------------------
+
 Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+
+Desktop.ini
+$RECYCLE.BIN/
+
+
+# --------------------------------------------------
+# macOS generated files
+# --------------------------------------------------
+
 .DS_Store
+.AppleDouble
+.LSOverride
+
+
+# --------------------------------------------------
+# Installer temporary files
+# --------------------------------------------------
+
+*.iss.bak
+*.setup.tmp
