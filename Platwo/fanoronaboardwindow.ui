@@ -22,9 +22,9 @@
   <widget class="QLabel" name="timerLabel">
    <property name="geometry">
     <rect>
-     <x>540</x>
+     <x>550</x>
      <y>70</y>
-     <width>101</width>
+     <width>91</width>
      <height>51</height>
     </rect>
    </property>
@@ -143,7 +143,7 @@ border:none;</string>
     <property name="font">
      <font>
       <family>Sitka Text</family>
-      <pointsize>11</pointsize>
+      <pointsize>12</pointsize>
       <bold>true</bold>
      </font>
     </property>
@@ -192,7 +192,7 @@ background:transparent;</string>
    <widget class="QLabel" name="player1ScoreLabel">
     <property name="geometry">
      <rect>
-      <x>48</x>
+      <x>45</x>
       <y>-50</y>
       <width>111</width>
       <height>321</height>
@@ -201,7 +201,7 @@ background:transparent;</string>
     <property name="font">
      <font>
       <family>Sitka Text</family>
-      <pointsize>11</pointsize>
+      <pointsize>12</pointsize>
       <bold>true</bold>
      </font>
     </property>
@@ -234,7 +234,7 @@ background:transparent;</string>
     <property name="font">
      <font>
       <family>Sitka Text</family>
-      <pointsize>11</pointsize>
+      <pointsize>12</pointsize>
       <bold>true</bold>
      </font>
     </property>
@@ -283,7 +283,7 @@ background:transparent;</string>
    <widget class="QLabel" name="player2ScoreLabel">
     <property name="geometry">
      <rect>
-      <x>50</x>
+      <x>45</x>
       <y>80</y>
       <width>151</width>
       <height>281</height>
@@ -452,9 +452,9 @@ background:transparent;</string>
   <widget class="QPushButton" name="saveButton">
    <property name="geometry">
     <rect>
-     <x>141</x>
+     <x>131</x>
      <y>335</y>
-     <width>109</width>
+     <width>125</width>
      <height>36</height>
     </rect>
    </property>
@@ -506,9 +506,9 @@ background:#0284e8;
   <widget class="QPushButton" name="restartButton">
    <property name="geometry">
     <rect>
-     <x>141</x>
+     <x>131</x>
      <y>374</y>
-     <width>109</width>
+     <width>125</width>
      <height>36</height>
     </rect>
    </property>
@@ -560,9 +560,9 @@ background:#0284e8;
   <widget class="QPushButton" name="exitButton">
    <property name="geometry">
     <rect>
-     <x>141</x>
+     <x>131</x>
      <y>413</y>
-     <width>109</width>
+     <width>125</width>
      <height>36</height>
     </rect>
    </property>
@@ -575,7 +575,7 @@ background:#0284e8;
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>11</pointsize>
      <bold>true</bold>
     </font>
    </property>
@@ -608,7 +608,7 @@ background:#0284e8;
 }</string>
    </property>
    <property name="text">
-    <string>Exit</string>
+    <string>Back to Menu</string>
    </property>
   </widget>
   <widget class="FanoronaBoardWidget" name="boardWidget" native="true">

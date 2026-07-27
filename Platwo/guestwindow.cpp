@@ -8,6 +8,7 @@
 #include "morrisboardwindow.h"
 #include "boxesboardwindow.h"
 #include "fanoronaboardwindow.h"
+#include "usermanager.h"
 GuestWindow::GuestWindow(GameWindow::GameType game, QWidget *parent) : QWidget(parent), ui(new Ui::GuestWindow), currentGame(game) {
     ui->setupUi(this);
 
@@ -154,7 +155,7 @@ void GuestWindow::on_joinRoomButton_clicked() {
     quint16 port = ui->portEdit->text().toUShort();
 
     PlayerInfo me;
-    me.name = "GuestUser";
+    me.name = UserManager::currentUser.username.toStdString();
     me.color = selectedGuestColor.name().toStdString();
     networkGame->joinHost(me, ip, port);
 

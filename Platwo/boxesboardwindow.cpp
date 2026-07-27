@@ -4,6 +4,9 @@
 #include <QMessageBox>
 #include <QPixmap>
 #include <QDebug>
+#include "usermanager.h"
+#include <QDateTime>
+#include "mainwindow.h"
 BoxesBoardWindow::BoxesBoardWindow( int board, bool timer, int time,
      const QString &p1Name, const QString &p2Name,
      const QColor &p1Color, const QColor &p2Color,
@@ -109,6 +112,7 @@ void BoxesBoardWindow::on_restartButton_clicked() {
     gameFinished = false;
     winnerPlayer = -1;
 
+    historySaved = false;
     ui->boardWidget->setEnabled(true);
 
     initializeWindow();
@@ -125,6 +129,8 @@ void BoxesBoardWindow::on_restartButton_clicked() {
 
 
 void BoxesBoardWindow::on_exitButton_clicked() {
+    MainWindow *main = new MainWindow();
+    main->show();
     close();
 }
 
@@ -140,7 +146,12 @@ void BoxesBoardWindow::refreshGameUI() {
     else ui->boardWidget->setMyTurn(true);
     ui->boardWidget->update();
 
-    if(game->isGameOver()) {
+    if(game->isGameOver() && !historySaved) {
+
+
+        historySaved = true;
+        saveHistory();
+
         QString text;
         int winner = game->winner();
         if(winner == 0) {
@@ -149,6 +160,8 @@ void BoxesBoardWindow::refreshGameUI() {
         else {
             text = QString("Game Finished!\n\nWinner : Player %1").arg(winner);
         }
+
+
         turnTimer->stop();
         CustomMessageBox::information( this, "Game Over", text );
     }
@@ -199,8 +212,50 @@ void BoxesBoardWindow::setNetworkGame(NetworkGame *net) {
     connect(networkGame, &NetworkGame::remoteMoveReceived,this, [=](const Move &move){
      ui->boardWidget->applyRemoteMove(move);
     });
+}
 
-    connect(networkGame,&NetworkGame::turnChanged,this,[=](int){
-     refreshGameUI();
-    });
+void BoxesBoardWindow::saveHistory() {
+
+
+
+
+    if(!networkGame)
+        return;
+
+    GameHistory h;
+
+    h.username = UserManager::currentUser.username;
+
+    h.game = "Boxes";
+
+    h.opponent =
+        networkGame->isHost() ?
+            player2Name :
+            player1Name;
+
+    h.role =
+        networkGame->isHost() ?
+            "Host" :
+            "Guest";
+
+    if(game->winner()==0)
+        h.winner="Draw";
+    else if(game->winner()==1)
+        h.winner=player1Name;
+    else
+        h.winner=player2Name;
+
+    h.score =
+        QString("%1-%2")
+            .arg(game->score(1))
+            .arg(game->score(2));
+
+    h.date =
+        QDateTime::currentDateTime()
+            .toString("yyyy/MM/dd hh:mm");
+    qDebug() << "saveHistory called";
+    qDebug() << "username =" << h.username;
+    qDebug() << "opponent =" << h.opponent;
+
+    UserManager::addHistory(h);
 }

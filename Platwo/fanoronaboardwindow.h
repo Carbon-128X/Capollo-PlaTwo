@@ -42,6 +42,8 @@ private:
     void startTurnTimer();
     void updateScores(int p1,int p2);
     NetworkGame *networkGame = nullptr;
+    void saveHistory();
+    bool historySaved = false;
 
 private slots:
 

@@ -520,7 +520,7 @@ background:#0284e8;
     <property name="font">
      <font>
       <family>Sitka Text</family>
-      <pointsize>14</pointsize>
+      <pointsize>11</pointsize>
       <bold>true</bold>
      </font>
     </property>
@@ -553,7 +553,7 @@ background:#0284e8;
 }</string>
     </property>
     <property name="text">
-     <string>Exit</string>
+     <string>Back to Menu</string>
     </property>
    </widget>
   </widget>

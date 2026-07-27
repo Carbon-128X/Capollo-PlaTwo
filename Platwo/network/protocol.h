@@ -13,6 +13,7 @@ enum GameType {
 };
 
 struct PlayerInfo {
+
     string name;
     string color;       // a simple value such as "#ff0000"
 };

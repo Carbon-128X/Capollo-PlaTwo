@@ -49,7 +49,9 @@ private:
     QColor player2Color;
     bool gameFinished = false;
     int winnerPlayer = -1;
+    void saveHistory();
 
+    bool historySaved = false;
 
 private slots:
     void on_exitButton_clicked();

@@ -61,6 +61,8 @@ public:
 
     static QString localIPv4();
 
+
+
 signals:
     void opponentConnected();
     void gameStarted();

@@ -1,6 +1,9 @@
 #include "morrisboardwindow.h"
 #include "ui_morrisboardwindow.h"
 #include "custommessagebox.h"
+#include "usermanager.h"
+#include <QDateTime>
+#include "mainwindow.h"
 MorrisBoardWindow::MorrisBoardWindow( bool timer, int time, const QString &p1Name, const QString &p2Name, const QColor &p1Color, const QColor &p2Color, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MorrisBoardWindow),
@@ -123,7 +126,12 @@ void MorrisBoardWindow::refreshGameUI() {
     if(networkGame) ui->boardWidget->setMyTurn(networkGame->session()->isMyTurn());
     else ui->boardWidget->setMyTurn(true);
     ui->boardWidget->update();
-    if(game->isGameOver()) {
+    if(game->isGameOver() && !historySaved) {
+
+
+        historySaved = true;
+        saveHistory();
+
         turnTimer->stop();
         QString text;
 
@@ -133,6 +141,8 @@ void MorrisBoardWindow::refreshGameUI() {
         else{
             text=QString("Winner : Player %1") .arg(game->winner());
         }
+
+
         CustomMessageBox::information( this,"Game Over", text);
     }
 
@@ -146,6 +156,7 @@ void MorrisBoardWindow::on_restartButton_clicked() {
     // ریست وضعیت پایان بازی
     gameFinished = false;
     winnerPlayer = -1;
+    historySaved = false;
 
     ui->boardWidget->setEnabled(true);
 
@@ -162,6 +173,8 @@ void MorrisBoardWindow::on_restartButton_clicked() {
 }
 
 void MorrisBoardWindow::on_exitButton_clicked() {
+    MainWindow *main = new MainWindow();
+    main->show();
     close();
 }
 
@@ -191,4 +204,46 @@ void MorrisBoardWindow::setNetworkGame(NetworkGame *net){
     connect(networkGame, &NetworkGame::boardChanged,this, [=](){
      refreshGameUI();
     });
+}
+
+void MorrisBoardWindow::saveHistory() {
+
+
+
+    if(!networkGame)
+        return;
+
+    GameHistory h;
+
+    h.username = UserManager::currentUser.username;
+
+    h.game = "Morris";
+
+    h.opponent =
+        networkGame->isHost() ?
+            player2Name :
+            player1Name;
+
+    h.role =
+        networkGame->isHost() ?
+            "Host" :
+            "Guest";
+
+    if(game->winner()==0)
+        h.winner="Draw";
+    else if(game->winner()==1)
+        h.winner=player1Name;
+    else
+        h.winner=player2Name;
+
+    h.score =
+        QString("%1-%2")
+            .arg(game->score(1))
+            .arg(game->score(2));
+
+    h.date =
+        QDateTime::currentDateTime()
+            .toString("yyyy/MM/dd hh:mm");
+
+    UserManager::addHistory(h);
 }

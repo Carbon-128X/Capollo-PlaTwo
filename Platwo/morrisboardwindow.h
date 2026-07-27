@@ -35,6 +35,8 @@ private:
     bool gameFinished = false;
     int winnerPlayer = -1;
 
+    void saveHistory();
+    bool historySaved = false;
 
     void initializeWindow();
     void initializePlayers();

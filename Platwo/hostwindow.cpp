@@ -9,6 +9,7 @@
 #include "custommessagebox.h"
 #include "morrisboardwindow.h"
 #include "fanoronaboardwindow.h"
+#include "usermanager.h"
 HostWindow::HostWindow(GameWindow::GameType game, QWidget *parent): QWidget(parent),ui(new Ui::HostWindow),currentGame(game){
     ui->setupUi(this);
     networkGame = new NetworkGame(this);
@@ -193,8 +194,9 @@ void HostWindow::on_createRoomButton_clicked() {
     config.timerEnabled = timerEnabled;
     config.turnSeconds = gameTime;
 
+
     PlayerInfo me;
-    me.name = "HostUser";
+    me.name = UserManager::currentUser.username.toStdString();
     me.color = selectedHostColor.name().toStdString();
 
     if(!networkGame->startHost(config, me, port)) {

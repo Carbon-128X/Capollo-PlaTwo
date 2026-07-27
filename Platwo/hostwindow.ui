@@ -267,7 +267,7 @@ QCheckBox::indicator:checked
      <rect>
       <x>30</x>
       <y>30</y>
-      <width>81</width>
+      <width>61</width>
       <height>51</height>
      </rect>
     </property>
@@ -300,7 +300,7 @@ QCheckBox::indicator:checked
      <rect>
       <x>32</x>
       <y>173</y>
-      <width>131</width>
+      <width>121</width>
       <height>31</height>
      </rect>
     </property>
@@ -439,7 +439,7 @@ color:white;
      <rect>
       <x>30</x>
       <y>120</y>
-      <width>181</width>
+      <width>171</width>
       <height>41</height>
      </rect>
     </property>
@@ -669,9 +669,9 @@ background:#0284e8;
   <widget class="QLabel" name="statusLabel">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>220</x>
      <y>260</y>
-     <width>351</width>
+     <width>261</width>
      <height>91</height>
     </rect>
    </property>

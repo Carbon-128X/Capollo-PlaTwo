@@ -1,5 +1,7 @@
 #include "usermanager.h"
 #include "filemanager.h"
+#include <QMessageBox>
+#include "custommessagebox.h"
 QVector<User> UserManager::users;
 User UserManager::currentUser;
 QVector<GameHistory> UserManager::history;
@@ -140,11 +142,14 @@ bool UserManager::updateUser(const User &newUser) {
 }
 
 void UserManager::addHistory(const GameHistory &game) {
+    load();
+
     history.push_back(game);
     FileManager::saveHistory(history);
 }
 
 QVector<GameHistory> UserManager::getHistory(QString username, QString game) {
+    load();
     QVector<GameHistory> result;
     for(const GameHistory &item : history) {
         if(item.username==username && item.game==game) {
