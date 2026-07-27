@@ -31,10 +31,6 @@ obj/
 # Deployment and installer output
 # --------------------------------------------------
 
-/Platwo/deploy/
-/deploy/
-
-/installer/output/
 /installer/build/
 
 /dist/
