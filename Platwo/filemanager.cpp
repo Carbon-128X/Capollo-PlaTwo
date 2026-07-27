@@ -3,6 +3,18 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QStandardPaths>
+#include <QDir>
+
+static QString dataFilePath(const QString& fileName)
+{
+    QString dataFolder =
+        QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+
+    QDir().mkpath(dataFolder);
+
+    return QDir(dataFolder).filePath(fileName);
+}
 
 void FileManager::saveUsers(const QVector<User> &users){
     QJsonArray array;
@@ -10,7 +22,7 @@ void FileManager::saveUsers(const QVector<User> &users){
         array.append(user.toJson());
     }
     QJsonDocument document(array);
-    QFile file("users.json");
+    QFile file(dataFilePath("users.json"));
 
     if(file.open(QIODevice::WriteOnly)){
 
@@ -21,7 +33,7 @@ void FileManager::saveUsers(const QVector<User> &users){
 
 QVector<User> FileManager::loadUsers(){
     QVector<User> users;
-    QFile file("users.json");
+    QFile file(dataFilePath("users.json"));
 
     if(!file.exists()){
         return users;
@@ -46,7 +58,7 @@ void FileManager::saveHistory(const QVector<GameHistory> &history) {
     for(const GameHistory &item : history){
         array.append(item.toJson());
     }
-    QFile file("history.json");
+    QFile file(dataFilePath("history.json"));
 
     if(file.open(QIODevice::WriteOnly)) {
         file.write(QJsonDocument(array).toJson());
@@ -56,7 +68,7 @@ void FileManager::saveHistory(const QVector<GameHistory> &history) {
 
 QVector<GameHistory> FileManager::loadHistory() {
     QVector<GameHistory> history;
-        QFile file("history.json");
+        QFile file(dataFilePath("history.json"));
 
     if(!file.exists()){
         return history;
