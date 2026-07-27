@@ -81,24 +81,44 @@ bool NetworkGame::startHost(const GameConfig& config,
     return true;
 }
 
-void NetworkGame::joinHost(const PlayerInfo& guestPlayer, const QString& ip,
+void NetworkGame::joinHost(const PlayerInfo& guestPlayer,
+                           const QString& ip,
                            quint16 port) {
-    if (server_ != nullptr || socket_ != nullptr)
+    if (server_ != nullptr || started_)
         return;
+
     if (!validPlayer(guestPlayer)) {
         emit connectionFailed("Invalid player information.");
         return;
     }
 
     host_ = false;
-    started_ = false;
     localInfo_ = guestPlayer;
+
+    // Guest is already connected but the selected color was rejected.
+    // Send the new color through the same connection.
+    if (socket_ != nullptr &&
+        socket_->state() == QAbstractSocket::ConnectedState) {
+        sendLine(convertHello(localInfo_));
+        return;
+    }
+
+    // Remove an old failed connection before trying again.
+    if (socket_ != nullptr) {
+        socket_->deleteLater();
+        socket_ = nullptr;
+        buffer_.clear();
+    }
+
+    started_ = false;
 
     socket_ = new QTcpSocket(this);
     attachSocket(socket_);
+
     connect(socket_, &QTcpSocket::connected, this, [this]() {
         sendLine(convertHello(localInfo_));
     });
+
     socket_->connectToHost(ip, port);
 }
 
@@ -177,6 +197,14 @@ void NetworkGame::processLine(const string& line) {
                 return;
             }
 
+            if (msg.playerInfo.color == config_.host.color) {
+                sendLine(convertError(
+                    "This color is already selected by the host. Choose another color."
+                    ));
+                return;
+            }
+
+
             config_.guest = msg.playerInfo;
             sendLine(convertStart(config_));
             finishHandshake();
@@ -203,9 +231,10 @@ void NetworkGame::processLine(const string& line) {
         }
 
         if (msg.type == MSG_ERROR)
-            emit protocolError(QString::fromStdString(msg.text));
+            emit connectionFailed(QString::fromStdString(msg.text));
         else
             sendLine(convertError("The game has not started yet."));
+
         return;
     }
 
