@@ -15,4 +15,7 @@
         <file>images/3333.png</file>
         <file>images/1212.png</file>
     </qresource>
+    <qresource prefix="/icons">
+        <file alias="platwo.ico">icons/platwo.ico</file>
+    </qresource>
 </RCC>

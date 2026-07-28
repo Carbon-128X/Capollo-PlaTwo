@@ -4,12 +4,15 @@
 #include "usermanager.h"
 #include <QFile>
 #include <QDebug>
+#include <QIcon>
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
     QCoreApplication::setOrganizationName("Capollo");
     QCoreApplication::setApplicationName("Platwo");
+
+    a.setWindowIcon(QIcon(":/icons/platwo.ico"));
 
     UserManager::load();
     Widget w;

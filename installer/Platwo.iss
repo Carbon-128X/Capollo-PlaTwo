@@ -23,6 +23,7 @@ Compression=lzma2
 SolidCompression=yes
 WizardStyle=modern
 
+SetupIconFile=..\Platwo\icons\platwo.ico
 UninstallDisplayIcon={app}\{#MyAppExeName}
 CloseApplications=yes
 
